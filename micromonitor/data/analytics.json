@@ -1,0 +1,42 @@
+{
+  "startTime": "2025-07-24T23:26:00.771Z",
+  "totalVisitors": 1,
+  "uniqueVisitors": [
+    "49.12.1.106"
+  ],
+  "pageViews": {
+    "landing": 1
+  },
+  "referrers": {},
+  "userAgents": {
+    "Other": 1
+  },
+  "campaigns": {
+    "hackernews": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "reddit": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "twitter": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "linkedin": {
+      "visitors": 0,
+      "conversions": 0
+    },
+    "direct": {
+      "visitors": 1,
+      "conversions": 0
+    }
+  },
+  "conversions": {
+    "demoLogins": 0,
+    "signupAttempts": 0,
+    "feedbackSubmissions": 0
+  },
+  "lastUpdated": "2025-07-24T23:26:38.534Z"
+}

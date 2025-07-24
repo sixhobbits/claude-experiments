@@ -10,6 +10,7 @@ const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } =
 const { apiKeyMiddleware, createApiKey, listApiKeys, deleteApiKey } = require('./apiKeys');
 const AnalyticsAPI = require('../analytics/analytics_api');
 const feedbackManager = require('./feedback');
+const analytics = require('../analytics');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use(apiKeyMiddleware());
 
 // Serve landing page at root
 app.get('/', (req, res) => {
+  analytics.trackPageView(req, 'landing');
   res.sendFile(path.join(__dirname, '../public/landing.html'));
 });
 
@@ -33,6 +35,7 @@ app.use(express.static(path.join(__dirname, '../public'), { index: false }));
 
 // Protected dashboard route
 app.get('/dashboard', authMiddleware(), (req, res) => {
+  analytics.trackPageView(req, 'dashboard');
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
@@ -43,6 +46,11 @@ app.post('/api/auth/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     const result = await authenticateUser(username, password);
+    // Track demo login conversions
+    if (username === 'demo') {
+      const campaign = req.query.ref || 'direct';
+      analytics.trackConversion('demoLogins', campaign);
+    }
     res.json(result);
   } catch (error) {
     res.status(401).json({ error: error.message });
@@ -378,6 +386,9 @@ app.post('/api/feedback', async (req, res) => {
       userAgent: req.headers['user-agent']
     };
     const result = await feedbackManager.submitFeedback(feedbackData);
+    // Track feedback conversion
+    const campaign = req.query.ref || 'direct';
+    analytics.trackConversion('feedbackSubmissions', campaign);
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -398,6 +409,16 @@ app.get('/api/feedback/stats', authMiddleware('admin'), async (req, res) => {
   try {
     const stats = await feedbackManager.getFeedbackStats();
     res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Analytics summary endpoint
+app.get('/api/analytics/summary', authMiddleware('admin'), (req, res) => {
+  try {
+    const summary = analytics.getAnalyticsSummary();
+    res.json(summary);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
