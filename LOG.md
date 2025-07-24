@@ -332,3 +332,22 @@
   3. UI bug: CPU and metrics panels growing vertically while scrolling
 - These issues are blocking user experience and must be addressed immediately
 - Status: Pending resolution
+
+### 2025-07-24 14:53:00 UTC - Fixed All Critical Issues
+- **SSL Certificate**: Installed Let's Encrypt certificate for claude.dwyer.co.za
+  - HTTPS now working without errors
+  - Automatic HTTP to HTTPS redirect configured
+  - Certificate valid until October 2025
+- **Landing Page**: Created professional landing page
+  - Hero section with product overview
+  - Feature showcase with 6 key capabilities
+  - Dashboard screenshots and mockups
+  - Demo access buttons
+  - Mentions AI-built origin story
+  - Moved dashboard to /dashboard route
+- **UI Bug Fix**: Resolved panel growing issue
+  - Fixed chart container heights to 300px
+  - Added proper overflow handling
+  - Sticky headers for tables
+  - Tested across different screen sizes
+- All critical issues resolved - site is now fully functional and professional
