@@ -30,7 +30,7 @@
 ## In Progress
 
 ## Backlog
-- [ ] Configure domain and SSL
+- [x] Configure domain and SSL - COMPLETED (https://claude.dwyer.co.za)
 - [x] Create user documentation - COMPLETED
 - [x] Implement webhook notifications - COMPLETED
 - [x] Create API key authentication - COMPLETED
