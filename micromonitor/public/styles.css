@@ -157,6 +157,183 @@ footer {
     color: #3498db;
 }
 
+.alerts-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.alerts-section h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.alert-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.alert-status {
+    display: flex;
+    gap: 30px;
+}
+
+.alert-status span {
+    color: #7f8c8d;
+}
+
+.alert-status strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.config-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.config-btn:hover {
+    background: #2980b9;
+}
+
+.alert-history h4 {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.alert-list {
+    min-height: 50px;
+}
+
+.no-alerts {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+.alert-item {
+    padding: 8px;
+    margin: 5px 0;
+    border-left: 3px solid #e74c3c;
+    background: #fef5f5;
+    border-radius: 4px;
+}
+
+.alert-item.warning {
+    border-left-color: #f39c12;
+    background: #fef9e7;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.config-form h3 {
+    color: #34495e;
+    margin: 20px 0 10px;
+    font-size: 1.1rem;
+}
+
+.threshold-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.email-config {
+    display: grid;
+    gap: 10px;
+}
+
+.config-form label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #555;
+}
+
+.config-form input[type="number"],
+.config-form input[type="text"],
+.config-form input[type="email"],
+.config-form input[type="password"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.config-form input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    justify-content: flex-end;
+}
+
+.save-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background: #229954;
+}
+
+.cancel-btn {
+    background: #95a5a6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background: #7f8c8d;
+}
+
 @media (max-width: 768px) {
     .charts-section {
         grid-template-columns: 1fr;
@@ -168,5 +345,15 @@ footer {
     
     .metric-value {
         font-size: 2.5rem;
+    }
+    
+    .alert-controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .alert-status {
+        flex-direction: column;
+        gap: 10px;
     }
 }

@@ -16,5 +16,22 @@
   "alerting": {
     "enabled": true,
     "cooldown": 300
+  },
+  "retention": {
+    "hours": 24,
+    "archiveEnabled": true,
+    "cleanupInterval": 3600000
+  },
+  "email": {
+    "enabled": false,
+    "smtp": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "secure": false,
+      "user": "",
+      "pass": ""
+    },
+    "from": "micromonitor@example.com",
+    "to": "admin@example.com"
   }
 }

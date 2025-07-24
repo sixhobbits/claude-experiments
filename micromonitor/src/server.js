@@ -2,12 +2,14 @@ const express = require('express');
 const path = require('path');
 const SystemMetrics = require('./metrics');
 const DataStore = require('./dataStore');
+const AlertManager = require('./alerts');
 const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } = require('./auth');
 
 const app = express();
 const port = process.env.PORT || 3000;
 const metrics = new SystemMetrics();
 const dataStore = new DataStore();
+const alertManager = new AlertManager(dataStore);
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
@@ -74,6 +76,9 @@ async function broadcastMetrics() {
   const data = await metrics.getAllMetrics();
   await dataStore.saveMetrics(data);
   
+  // Check alerts
+  await alertManager.checkThresholds(data);
+  
   clients.forEach(client => {
     client.res.write(`data: ${JSON.stringify(data)}\n\n`);
   });
@@ -93,6 +98,7 @@ app.get('/api/config', authMiddleware(), async (req, res) => {
 app.post('/api/config', authMiddleware('admin'), async (req, res) => {
   try {
     await dataStore.saveConfig(req.body);
+    await alertManager.updateConfig(req.body);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -108,8 +114,18 @@ app.get('/api/retention/stats', authMiddleware(), async (req, res) => {
   }
 });
 
-// Initialize default admin user
+app.get('/api/alerts/history', authMiddleware(), async (req, res) => {
+  try {
+    const history = await alertManager.getAlertHistory();
+    res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Initialize default admin user and alert manager
 initializeDefaultAdmin();
+alertManager.initialize();
 
 app.listen(port, () => {
   console.log(`MicroMonitor running on http://localhost:${port}`);

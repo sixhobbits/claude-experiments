@@ -51,6 +51,18 @@ class DataStore {
         hours: 24, // Keep metrics for 24 hours
         archiveEnabled: true, // Archive old data before deletion
         cleanupInterval: 3600000 // Run cleanup every hour
+      },
+      email: {
+        enabled: false,
+        smtp: {
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false,
+          user: '',
+          pass: ''
+        },
+        from: 'micromonitor@example.com',
+        to: 'admin@example.com'
       }
     };
   }

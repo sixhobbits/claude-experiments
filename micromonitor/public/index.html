@@ -61,6 +61,60 @@
             </div>
         </div>
         
+        <div class="alerts-section">
+            <h3>Alert Configuration</h3>
+            <div class="alert-controls">
+                <div class="alert-status">
+                    <span>Alerting: <strong id="alert-status">--</strong></span>
+                    <span>Email Alerts: <strong id="email-status">--</strong></span>
+                </div>
+                <button id="configure-alerts-btn" class="config-btn">Configure Alerts</button>
+            </div>
+            <div class="alert-history">
+                <h4>Recent Alerts</h4>
+                <div id="alert-history-list" class="alert-list">
+                    <p class="no-alerts">No recent alerts</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="config-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Alert Configuration</h2>
+                <div class="config-form">
+                    <h3>Thresholds</h3>
+                    <div class="threshold-group">
+                        <label>CPU Warning (%): <input type="number" id="cpu-warning" min="0" max="100"></label>
+                        <label>CPU Critical (%): <input type="number" id="cpu-critical" min="0" max="100"></label>
+                    </div>
+                    <div class="threshold-group">
+                        <label>Memory Warning (%): <input type="number" id="memory-warning" min="0" max="100"></label>
+                        <label>Memory Critical (%): <input type="number" id="memory-critical" min="0" max="100"></label>
+                    </div>
+                    <div class="threshold-group">
+                        <label>Disk Warning (%): <input type="number" id="disk-warning" min="0" max="100"></label>
+                        <label>Disk Critical (%): <input type="number" id="disk-critical" min="0" max="100"></label>
+                    </div>
+                    
+                    <h3>Email Configuration</h3>
+                    <div class="email-config">
+                        <label>Enable Email Alerts: <input type="checkbox" id="email-enabled"></label>
+                        <label>SMTP Host: <input type="text" id="smtp-host" placeholder="smtp.gmail.com"></label>
+                        <label>SMTP Port: <input type="number" id="smtp-port" placeholder="587"></label>
+                        <label>SMTP User: <input type="email" id="smtp-user" placeholder="user@example.com"></label>
+                        <label>SMTP Password: <input type="password" id="smtp-pass"></label>
+                        <label>From Email: <input type="email" id="email-from" placeholder="alerts@example.com"></label>
+                        <label>To Email: <input type="email" id="email-to" placeholder="admin@example.com"></label>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button id="save-config-btn" class="save-btn">Save Configuration</button>
+                        <button id="cancel-config-btn" class="cancel-btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <footer>
             <p>Last updated: <span id="last-update">Never</span></p>
             <button id="logout-btn" class="logout-btn">Logout</button>

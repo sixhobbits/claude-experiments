@@ -28,8 +28,6 @@
 - [x] API endpoints implementation
 
 ## In Progress
-- [ ] Add data retention with time-based cleanup
-- [ ] Create email alert system
 
 ## Backlog
 - [ ] Configure domain and SSL
@@ -46,3 +44,5 @@
 - [x] Set up systemd service - COMPLETED
 - [x] Configure nginx reverse proxy - COMPLETED
 - [x] Implement authentication system - COMPLETED
+- [x] Add data retention with time-based cleanup - COMPLETED
+- [x] Create email alert system - COMPLETED

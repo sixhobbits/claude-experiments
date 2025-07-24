@@ -86,3 +86,36 @@
   - Retention stats refresh every minute
 - System now automatically manages data storage to prevent unlimited growth
 - Archives are stored in data/archive/ directory with timestamp-based filenames
+
+### 2025-07-24 - Email Alert System Implementation
+- Implemented comprehensive email alert system with nodemailer
+- Created alerts.js module with:
+  - SMTP email support for sending alert notifications
+  - Threshold monitoring for CPU, memory, and disk usage
+  - Cooldown mechanism to prevent alert spam (default 5 minutes)
+  - Alert history tracking and persistence
+  - Support for warning and critical alert levels
+- Enhanced dataStore.js with email configuration:
+  - SMTP settings (host, port, user, pass)
+  - From/To email addresses
+  - Enable/disable email alerts
+- Integrated alert checking into metrics broadcast:
+  - Checks thresholds every 5 seconds with metrics collection
+  - Sends email alerts when thresholds are exceeded
+  - Respects cooldown period between alerts
+- Added alert management UI to dashboard:
+  - Alert status display (enabled/disabled)
+  - Email status indicator
+  - Recent alerts history section
+  - Configure Alerts button with modal dialog
+  - Full configuration interface for thresholds and email settings
+- Created API endpoints:
+  - GET /api/alerts/history - Get alert history
+  - Config updates trigger alert manager reconfiguration
+- Alert email features:
+  - HTML formatted emails with system metrics
+  - Color-coded by severity (warning/critical)
+  - Includes hostname and timestamp
+  - Shows all current system metrics in email body
+- Successfully tested alert system functionality
+- System ready for production use with email notifications
