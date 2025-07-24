@@ -1,3 +1,14 @@
+// Check authentication
+const authToken = localStorage.getItem('authToken');
+if (!authToken) {
+    window.location.href = '/login.html';
+}
+
+// Add auth headers to all requests
+const authHeaders = {
+    'Authorization': `Bearer ${authToken}`
+};
+
 // Initialize charts
 const cpuChartCtx = document.getElementById('cpu-chart').getContext('2d');
 const memoryChartCtx = document.getElementById('memory-chart').getContext('2d');
@@ -81,7 +92,16 @@ function updateMetrics(data) {
 // Fetch initial data
 async function fetchMetrics() {
     try {
-        const response = await fetch('/api/metrics');
+        const response = await fetch('/api/metrics', {
+            headers: authHeaders
+        });
+        
+        if (response.status === 401) {
+            localStorage.clear();
+            window.location.href = '/login.html';
+            return;
+        }
+        
         const data = await response.json();
         updateMetrics(data);
     } catch (error) {
@@ -99,6 +119,22 @@ eventSource.onmessage = (event) => {
 eventSource.onerror = (error) => {
     console.error('EventSource error:', error);
 };
+
+// Add logout functionality
+function addLogoutButton() {
+    const header = document.querySelector('.header');
+    const logoutBtn = document.createElement('button');
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.style.cssText = 'position: absolute; right: 1rem; top: 1rem; padding: 0.5rem 1rem; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;';
+    logoutBtn.onclick = () => {
+        localStorage.clear();
+        window.location.href = '/login.html';
+    };
+    header.style.position = 'relative';
+    header.appendChild(logoutBtn);
+}
+
+addLogoutButton();
 
 // Initial fetch
 fetchMetrics();

@@ -28,9 +28,17 @@
 - [x] API endpoints implementation
 
 ## In Progress
+- [ ] Implement authentication system
+- [ ] Add data retention with time-based cleanup
+- [ ] Create email alert system
+
+## Backlog
 - [ ] Configure domain and SSL
 - [ ] Create user documentation
-- [ ] Plan additional features
+- [ ] Add process-level monitoring
+- [ ] Implement webhook notifications
+- [ ] Create API key authentication
+- [ ] Add CSV/PDF export features
 
 ## Recently Completed
 - [x] Complete dashboard UI - COMPLETED
