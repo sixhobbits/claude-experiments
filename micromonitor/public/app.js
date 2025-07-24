@@ -120,21 +120,50 @@ eventSource.onerror = (error) => {
     console.error('EventSource error:', error);
 };
 
-// Add logout functionality
-function addLogoutButton() {
-    const header = document.querySelector('.header');
-    const logoutBtn = document.createElement('button');
-    logoutBtn.textContent = 'Logout';
-    logoutBtn.style.cssText = 'position: absolute; right: 1rem; top: 1rem; padding: 0.5rem 1rem; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;';
-    logoutBtn.onclick = () => {
-        localStorage.clear();
-        window.location.href = '/login.html';
-    };
-    header.style.position = 'relative';
-    header.appendChild(logoutBtn);
+// Fetch retention statistics
+async function fetchRetentionStats() {
+    try {
+        const response = await fetch('/api/retention/stats', {
+            headers: authHeaders
+        });
+        
+        if (!response.ok) {
+            console.error('Failed to fetch retention stats');
+            return;
+        }
+        
+        const stats = await response.json();
+        updateRetentionStats(stats);
+    } catch (error) {
+        console.error('Failed to fetch retention stats:', error);
+    }
 }
 
-addLogoutButton();
+function updateRetentionStats(stats) {
+    document.getElementById('total-records').textContent = stats.totalRecords || '0';
+    document.getElementById('retention-hours').textContent = stats.retentionHours || '24';
+    document.getElementById('archive-status').textContent = stats.archiveEnabled ? 'Enabled' : 'Disabled';
+    
+    if (stats.oldestRecord) {
+        const oldestDate = new Date(stats.oldestRecord);
+        const age = Date.now() - oldestDate.getTime();
+        const ageHours = Math.floor(age / (1000 * 60 * 60));
+        const ageMinutes = Math.floor((age % (1000 * 60 * 60)) / (1000 * 60));
+        document.getElementById('oldest-record').textContent = `${ageHours}h ${ageMinutes}m ago`;
+    } else {
+        document.getElementById('oldest-record').textContent = 'N/A';
+    }
+}
+
+// Add logout functionality
+document.getElementById('logout-btn').onclick = () => {
+    localStorage.clear();
+    window.location.href = '/login.html';
+};
 
 // Initial fetch
 fetchMetrics();
+fetchRetentionStats();
+
+// Refresh retention stats every minute
+setInterval(fetchRetentionStats, 60000);

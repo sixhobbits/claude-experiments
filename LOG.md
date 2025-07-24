@@ -66,3 +66,23 @@
   - Role-based access control (viewer/admin roles)
   - Secure password hashing
   - Protected configuration endpoints (admin-only)
+
+### 2025-07-24 - Data Retention System Implementation
+- Implemented comprehensive data retention system with time-based cleanup
+- Enhanced dataStore.js module with:
+  - Configurable retention period (default 24 hours)
+  - Automatic hourly cleanup of old metrics
+  - Optional archiving of old data to archive directory
+  - Archive cleanup (removes archives older than 7 days)
+  - Retention statistics API endpoint
+- Added retention configuration to default config:
+  - hours: Retention period in hours
+  - archiveEnabled: Whether to archive old data
+  - cleanupInterval: How often to run cleanup
+- Created /api/retention/stats endpoint to get current retention status
+- Updated dashboard UI:
+  - Added retention status section showing total records, retention period, oldest data age
+  - Added archiving status indicator
+  - Retention stats refresh every minute
+- System now automatically manages data storage to prevent unlimited growth
+- Archives are stored in data/archive/ directory with timestamp-based filenames

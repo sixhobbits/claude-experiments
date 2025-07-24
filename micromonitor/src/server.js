@@ -99,6 +99,15 @@ app.post('/api/config', authMiddleware('admin'), async (req, res) => {
   }
 });
 
+app.get('/api/retention/stats', authMiddleware(), async (req, res) => {
+  try {
+    const stats = await dataStore.getRetentionStats();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Initialize default admin user
 initializeDefaultAdmin();
 

@@ -99,10 +99,57 @@ canvas {
     height: 200px;
 }
 
+.retention-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.retention-section h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.retention-stats {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.retention-stats span {
+    color: #7f8c8d;
+}
+
+.retention-stats strong {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
 footer {
     text-align: center;
     color: #7f8c8d;
     padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
 }
 
 #last-update {
