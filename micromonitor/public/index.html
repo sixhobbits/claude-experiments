@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroMonitor - System Monitoring Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MicroMonitor</h1>
+            <p class="subtitle">Real-time System Monitoring</p>
+        </header>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h3>CPU Usage</h3>
+                <div class="metric-value" id="cpu-usage">--</div>
+                <div class="metric-unit">%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>Memory Usage</h3>
+                <div class="metric-value" id="memory-usage">--</div>
+                <div class="metric-unit">%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>Disk Usage</h3>
+                <div class="metric-value" id="disk-usage">--</div>
+                <div class="metric-unit">%</div>
+            </div>
+            
+            <div class="metric-card">
+                <h3>Uptime</h3>
+                <div class="metric-value" id="uptime">--</div>
+                <div class="metric-unit">days</div>
+            </div>
+        </div>
+        
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>CPU Usage History</h3>
+                <canvas id="cpu-chart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Memory Usage History</h3>
+                <canvas id="memory-chart"></canvas>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Last updated: <span id="last-update">Never</span></p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

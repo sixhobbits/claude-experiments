@@ -1,0 +1,20 @@
+{
+  "thresholds": {
+    "cpu": {
+      "warning": 70,
+      "critical": 90
+    },
+    "memory": {
+      "warning": 80,
+      "critical": 95
+    },
+    "disk": {
+      "warning": 80,
+      "critical": 90
+    }
+  },
+  "alerting": {
+    "enabled": true,
+    "cooldown": 300
+  }
+}
