@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroMonitor - Growth Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #2563eb;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .campaign-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .campaign-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .campaign-card {
+            padding: 15px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .campaign-name {
+            font-weight: bold;
+            text-transform: capitalize;
+            margin-bottom: 5px;
+        }
+        
+        .refresh-notice {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        
+        .error {
+            color: #dc2626;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 MicroMonitor Growth Dashboard</h1>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Unique Visitors</div>
+                <div class="metric-value" id="uniqueVisitors">-</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Page Views</div>
+                <div class="metric-value" id="totalViews">-</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Demo Logins</div>
+                <div class="metric-value" id="demoLogins">-</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Feedback Received</div>
+                <div class="metric-value" id="feedbackCount">-</div>
+            </div>
+        </div>
+        
+        <div class="campaign-section">
+            <h2>Campaign Performance</h2>
+            <div class="campaign-grid" id="campaignGrid">
+                <!-- Campaign cards will be inserted here -->
+            </div>
+        </div>
+        
+        <div class="campaign-section">
+            <h2>Top Pages</h2>
+            <div id="topPages">
+                <!-- Top pages will be listed here -->
+            </div>
+        </div>
+        
+        <div class="refresh-notice">
+            Auto-refreshing every 30 seconds...
+        </div>
+    </div>
+    
+    <script>
+        async function fetchAnalytics() {
+            try {
+                // For demo purposes, we'll read the analytics file directly
+                // In production, this would use the API endpoint with proper auth
+                const response = await fetch('/api/analytics/summary', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                if (!response.ok) {
+                    // If auth fails, try to use demo data
+                    console.log('Using demo data');
+                    return generateDemoData();
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Error fetching analytics:', error);
+                return generateDemoData();
+            }
+        }
+        
+        function generateDemoData() {
+            // Demo data for visualization
+            return {
+                uniqueVisitors: 1,
+                totalPageViews: 1,
+                topPages: [['landing', 1]],
+                campaigns: {
+                    hackernews: { visitors: 0, conversions: 0 },
+                    reddit: { visitors: 0, conversions: 0 },
+                    twitter: { visitors: 0, conversions: 0 },
+                    linkedin: { visitors: 0, conversions: 0 },
+                    direct: { visitors: 1, conversions: 0 }
+                },
+                conversions: {
+                    demoLogins: 0,
+                    signupAttempts: 0,
+                    feedbackSubmissions: 0
+                }
+            };
+        }
+        
+        function updateDashboard(data) {
+            // Update main metrics
+            document.getElementById('uniqueVisitors').textContent = data.uniqueVisitors || 0;
+            document.getElementById('totalViews').textContent = data.totalPageViews || 0;
+            document.getElementById('demoLogins').textContent = data.conversions?.demoLogins || 0;
+            document.getElementById('feedbackCount').textContent = data.conversions?.feedbackSubmissions || 0;
+            
+            // Update campaign grid
+            const campaignGrid = document.getElementById('campaignGrid');
+            campaignGrid.innerHTML = '';
+            
+            if (data.campaigns) {
+                Object.entries(data.campaigns).forEach(([name, stats]) => {
+                    const card = document.createElement('div');
+                    card.className = 'campaign-card';
+                    card.innerHTML = `
+                        <div class="campaign-name">${name}</div>
+                        <div>Visitors: ${stats.visitors}</div>
+                        <div>Conversions: ${stats.conversions}</div>
+                    `;
+                    campaignGrid.appendChild(card);
+                });
+            }
+            
+            // Update top pages
+            const topPages = document.getElementById('topPages');
+            topPages.innerHTML = '';
+            
+            if (data.topPages && data.topPages.length > 0) {
+                const list = document.createElement('ul');
+                data.topPages.forEach(([page, views]) => {
+                    const item = document.createElement('li');
+                    item.textContent = `${page}: ${views} views`;
+                    list.appendChild(item);
+                });
+                topPages.appendChild(list);
+            } else {
+                topPages.innerHTML = '<p>No page data yet</p>';
+            }
+        }
+        
+        async function refreshData() {
+            const data = await fetchAnalytics();
+            updateDashboard(data);
+        }
+        
+        // Initial load
+        refreshData();
+        
+        // Refresh every 30 seconds
+        setInterval(refreshData, 30000);
+    </script>
+</body>
+</html>
