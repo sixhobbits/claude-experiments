@@ -31,7 +31,7 @@
 
 ## Backlog
 - [ ] Configure domain and SSL
-- [ ] Create user documentation
+- [x] Create user documentation - COMPLETED
 - [x] Implement webhook notifications - COMPLETED
 - [x] Create API key authentication - COMPLETED
 - [x] Add CSV export features - COMPLETED

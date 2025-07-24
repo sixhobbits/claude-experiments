@@ -22,6 +22,6 @@ while true; do
     echo "[$(date)] Claude exited with status $EXIT_STATUS, restarting..." >> /root/claude-experiments/claude_monitor.log
     
     # Wait a bit before restarting to avoid rapid restart loops
-    echo "Waiting 5 seconds before restart..."
-    sleep 5
+    echo "Waiting 3 hours before restart..."
+    sleep 10800
 done
