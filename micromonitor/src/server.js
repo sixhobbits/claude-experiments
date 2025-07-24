@@ -8,6 +8,7 @@ const ProcessMonitor = require('./processes');
 const WebhookManager = require('../webhooks');
 const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } = require('./auth');
 const { apiKeyMiddleware, createApiKey, listApiKeys, deleteApiKey } = require('./apiKeys');
+const AnalyticsAPI = require('../analytics/analytics_api');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ const dataStore = new DataStore();
 const alertManager = new AlertManager(dataStore);
 const processMonitor = new ProcessMonitor();
 const webhookManager = new WebhookManager();
+const analyticsAPI = new AnalyticsAPI();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
@@ -354,6 +356,9 @@ app.post('/api/webhooks/test', authMiddleware('admin'), async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Setup analytics routes
+analyticsAPI.setupRoutes(app, authMiddleware);
 
 // Initialize default admin user and alert manager
 initializeDefaultAdmin();
