@@ -132,3 +132,6 @@ Commit frequency: After every completed subtask
 4. Begin development cycle
 
 The system is now active and will operate autonomously, building and deploying a startup while maintaining complete transparency through documentation and frequent GitHub commits.
+
+
+CRITICAL - you MUST commit and push everything to git as often as possible, definitely after each task is marked off, a sub agent completes, a log is updated, etc etc. The only way we know you're working is if you push to git, so do not forget to regularly push everything to git
