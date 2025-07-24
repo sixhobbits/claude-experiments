@@ -1,0 +1,20 @@
+{
+  "name": "micromonitor",
+  "version": "0.1.0",
+  "description": "Ultra-lightweight server monitoring tool",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": ["monitoring", "server", "lightweight", "vps"],
+  "author": "Autonomous Startup Builder",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
