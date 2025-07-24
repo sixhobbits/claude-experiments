@@ -123,6 +123,19 @@
                 </div>
             </div>
         </div>
+        
+        <div class="webhooks-section">
+            <h3>Webhook Notifications</h3>
+            <div class="webhook-controls">
+                <button id="configure-webhooks-btn" class="config-btn">Configure Webhooks</button>
+            </div>
+            <div class="webhook-history">
+                <h4>Recent Webhook Activity</h4>
+                <div id="webhook-history-list" class="webhook-list">
+                    <p class="no-webhooks">No recent webhook activity</p>
+                </div>
+            </div>
+        </div>
 
         <div id="config-modal" class="modal" style="display: none;">
             <div class="modal-content">
@@ -156,6 +169,41 @@
                     <div class="modal-buttons">
                         <button id="save-config-btn" class="save-btn">Save Configuration</button>
                         <button id="cancel-config-btn" class="cancel-btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="webhook-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Webhook Configuration</h2>
+                <div class="webhook-form">
+                    <div class="webhook-list-container">
+                        <h3>Configured Webhooks</h3>
+                        <div id="configured-webhooks"></div>
+                        <button id="add-webhook-btn" class="add-btn">Add New Webhook</button>
+                    </div>
+                    
+                    <div id="webhook-editor" style="display: none;">
+                        <h3>Webhook Details</h3>
+                        <label>Name: <input type="text" id="webhook-name" placeholder="My Webhook"></label>
+                        <label>URL: <input type="url" id="webhook-url" placeholder="https://example.com/webhook"></label>
+                        <label>Events: 
+                            <div class="webhook-events">
+                                <label><input type="checkbox" value="alert" checked> Alerts</label>
+                                <label><input type="checkbox" value="test"> Test Events</label>
+                            </div>
+                        </label>
+                        <label>Enabled: <input type="checkbox" id="webhook-enabled" checked></label>
+                        <div class="webhook-buttons">
+                            <button id="save-webhook-btn" class="save-btn">Save Webhook</button>
+                            <button id="test-webhook-btn" class="test-btn">Test</button>
+                            <button id="cancel-webhook-btn" class="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button id="close-webhook-modal" class="cancel-btn">Close</button>
                     </div>
                 </div>
             </div>

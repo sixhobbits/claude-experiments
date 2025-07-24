@@ -444,3 +444,139 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Webhook Styles */
+.webhooks-section {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.webhook-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.webhook-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.webhook-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9em;
+}
+
+.webhook-item:last-child {
+    border-bottom: none;
+}
+
+.webhook-status-success {
+    color: #27ae60;
+}
+
+.webhook-status-failed {
+    color: #e74c3c;
+}
+
+.webhook-list-container {
+    margin-bottom: 20px;
+}
+
+#configured-webhooks {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.webhook-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.webhook-list-item:last-child {
+    border-bottom: none;
+}
+
+.webhook-events {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.webhook-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.test-btn {
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.test-btn:hover {
+    background-color: #e67e22;
+}
+
+.add-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background-color: #2980b9;
+}
+
+.no-webhooks {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.edit-btn {
+    background-color: #3498db;
+    color: white;
+    margin-right: 5px;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}

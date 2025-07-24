@@ -63,7 +63,8 @@ class DataStore {
         },
         from: 'micromonitor@example.com',
         to: 'admin@example.com'
-      }
+      },
+      webhooks: []
     };
   }
   

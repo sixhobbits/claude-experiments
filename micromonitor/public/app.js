@@ -392,8 +392,185 @@ function updateProcessDisplay(data) {
 }
 
 // Process refresh button
-document.getElementById('refresh-processes-btn').onclick = () => {
+document.getElementById('refresh-processes').onclick = () => {
     fetchProcesses();
+};
+
+// Webhook functionality
+let currentWebhooks = [];
+let editingWebhookIndex = -1;
+
+async function fetchWebhookHistory() {
+    try {
+        const response = await fetchWithAuth('/api/webhooks/history');
+        const history = await response.json();
+        updateWebhookHistory(history);
+    } catch (error) {
+        console.error('Failed to fetch webhook history:', error);
+    }
+}
+
+function updateWebhookHistory(history) {
+    const historyList = document.getElementById('webhook-history-list');
+    
+    if (history.length === 0) {
+        historyList.innerHTML = '<p class="no-webhooks">No recent webhook activity</p>';
+        return;
+    }
+    
+    historyList.innerHTML = history.map(item => {
+        const statusClass = item.status >= 200 && item.status < 300 ? 'webhook-status-success' : 'webhook-status-failed';
+        const statusText = item.error || item.response || 'Sent';
+        return `
+            <div class="webhook-item">
+                <strong>${item.name}</strong> - ${item.event}
+                <span class="${statusClass}">${statusText}</span>
+                <small>${new Date(item.timestamp).toLocaleString()}</small>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateWebhookList() {
+    const webhooksList = document.getElementById('configured-webhooks');
+    
+    if (currentWebhooks.length === 0) {
+        webhooksList.innerHTML = '<p>No webhooks configured</p>';
+        return;
+    }
+    
+    webhooksList.innerHTML = currentWebhooks.map((webhook, index) => `
+        <div class="webhook-list-item">
+            <div>
+                <strong>${webhook.name}</strong>
+                <small>${webhook.enabled ? 'Enabled' : 'Disabled'}</small>
+            </div>
+            <div>
+                <button onclick="editWebhook(${index})" class="edit-btn">Edit</button>
+                <button onclick="deleteWebhook(${index})" class="delete-btn">Delete</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+window.editWebhook = function(index) {
+    editingWebhookIndex = index;
+    const webhook = currentWebhooks[index];
+    
+    document.getElementById('webhook-name').value = webhook.name;
+    document.getElementById('webhook-url').value = webhook.url;
+    document.getElementById('webhook-enabled').checked = webhook.enabled;
+    
+    // Set events checkboxes
+    const eventCheckboxes = document.querySelectorAll('.webhook-events input[type="checkbox"]');
+    eventCheckboxes.forEach(cb => {
+        cb.checked = webhook.events.includes(cb.value);
+    });
+    
+    document.getElementById('webhook-editor').style.display = 'block';
+};
+
+window.deleteWebhook = function(index) {
+    if (confirm('Are you sure you want to delete this webhook?')) {
+        currentWebhooks.splice(index, 1);
+        updateWebhookList();
+    }
+};
+
+// Webhook modal controls
+document.getElementById('configure-webhooks-btn').onclick = async () => {
+    await fetchConfig();
+    currentWebhooks = currentConfig.webhooks || [];
+    updateWebhookList();
+    document.getElementById('webhook-modal').style.display = 'block';
+};
+
+document.getElementById('close-webhook-modal').onclick = async () => {
+    // Save webhooks to config
+    currentConfig.webhooks = currentWebhooks;
+    
+    await fetchWithAuth('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentConfig)
+    });
+    
+    document.getElementById('webhook-modal').style.display = 'none';
+    document.getElementById('webhook-editor').style.display = 'none';
+};
+
+document.getElementById('add-webhook-btn').onclick = () => {
+    editingWebhookIndex = -1;
+    document.getElementById('webhook-name').value = '';
+    document.getElementById('webhook-url').value = '';
+    document.getElementById('webhook-enabled').checked = true;
+    document.querySelectorAll('.webhook-events input[type="checkbox"]').forEach(cb => {
+        cb.checked = cb.value === 'alert';
+    });
+    document.getElementById('webhook-editor').style.display = 'block';
+};
+
+document.getElementById('save-webhook-btn').onclick = () => {
+    const name = document.getElementById('webhook-name').value;
+    const url = document.getElementById('webhook-url').value;
+    const enabled = document.getElementById('webhook-enabled').checked;
+    
+    const events = [];
+    document.querySelectorAll('.webhook-events input[type="checkbox"]:checked').forEach(cb => {
+        events.push(cb.value);
+    });
+    
+    if (!name || !url || events.length === 0) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    const webhook = {
+        name,
+        url,
+        enabled,
+        events,
+        headers: {}
+    };
+    
+    if (editingWebhookIndex === -1) {
+        currentWebhooks.push(webhook);
+    } else {
+        currentWebhooks[editingWebhookIndex] = webhook;
+    }
+    
+    updateWebhookList();
+    document.getElementById('webhook-editor').style.display = 'none';
+};
+
+document.getElementById('test-webhook-btn').onclick = async () => {
+    const webhook = {
+        name: document.getElementById('webhook-name').value,
+        url: document.getElementById('webhook-url').value,
+        headers: {}
+    };
+    
+    if (!webhook.url) {
+        alert('Please enter a webhook URL');
+        return;
+    }
+    
+    try {
+        const response = await fetchWithAuth('/api/webhooks/test', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(webhook)
+        });
+        
+        const result = await response.json();
+        alert(result.success ? 'Webhook test successful!' : `Webhook test failed: ${result.error}`);
+    } catch (error) {
+        alert('Failed to test webhook: ' + error.message);
+    }
+};
+
+document.getElementById('cancel-webhook-btn').onclick = () => {
+    document.getElementById('webhook-editor').style.display = 'none';
 };
 
 // Initial fetch
@@ -402,12 +579,16 @@ fetchRetentionStats();
 fetchConfig();
 fetchAlertHistory();
 fetchProcesses();
+fetchWebhookHistory();
 
 // Refresh retention stats every minute
 setInterval(fetchRetentionStats, 60000);
 
 // Refresh alert history every 30 seconds
 setInterval(fetchAlertHistory, 30000);
+
+// Refresh webhook history every 30 seconds
+setInterval(fetchWebhookHistory, 30000);
 
 // Refresh processes every 30 seconds
 setInterval(fetchProcesses, 30000);

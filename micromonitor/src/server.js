@@ -4,6 +4,7 @@ const SystemMetrics = require('./metrics');
 const DataStore = require('./dataStore');
 const AlertManager = require('./alerts');
 const ProcessMonitor = require('./processes');
+const WebhookManager = require('../webhooks');
 const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } = require('./auth');
 
 const app = express();
@@ -12,6 +13,7 @@ const metrics = new SystemMetrics();
 const dataStore = new DataStore();
 const alertManager = new AlertManager(dataStore);
 const processMonitor = new ProcessMonitor();
+const webhookManager = new WebhookManager();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
@@ -149,6 +151,27 @@ app.post('/api/processes/check', authMiddleware(), async (req, res) => {
     const { processes } = req.body;
     const results = await processMonitor.checkCriticalProcesses(processes || []);
     res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Webhook endpoints
+app.get('/api/webhooks/history', authMiddleware(), async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 50;
+    const history = await webhookManager.getHistory(limit);
+    res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/webhooks/test', authMiddleware('admin'), async (req, res) => {
+  try {
+    const webhook = req.body;
+    const result = await webhookManager.testWebhook(webhook);
+    res.json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

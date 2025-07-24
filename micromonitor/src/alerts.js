@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const fs = require('fs').promises;
 const path = require('path');
+const WebhookManager = require('../webhooks');
 
 class AlertManager {
   constructor(dataStore) {
@@ -8,6 +9,7 @@ class AlertManager {
     this.transporter = null;
     this.alertHistory = new Map();
     this.alertFile = path.join(__dirname, '../data/alerts.json');
+    this.webhookManager = new WebhookManager();
   }
 
   async initialize() {
@@ -154,6 +156,15 @@ class AlertManager {
     
     // Log the alert
     console.log(`[ALERT] ${alert.level.toUpperCase()}: ${alert.message}`);
+    
+    // Trigger webhooks for this alert
+    const webhookData = {
+      alert: alert,
+      metrics: metrics,
+      hostname: require('os').hostname()
+    };
+    
+    await this.webhookManager.triggerWebhooks('alert', webhookData);
     
     // Send email if configured
     if (config.email && config.email.enabled && this.transporter) {
