@@ -17,8 +17,13 @@ body {
 }
 
 header {
-    text-align: center;
     margin-bottom: 40px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 h1 {
@@ -30,6 +35,17 @@ h1 {
 .subtitle {
     color: #7f8c8d;
     font-size: 1.1rem;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logged-in-user {
+    color: #7f8c8d;
+    font-size: 0.9rem;
 }
 
 .metrics-grid {

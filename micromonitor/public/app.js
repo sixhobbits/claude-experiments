@@ -4,6 +4,11 @@ if (!authToken) {
     window.location.href = '/login.html';
 }
 
+// Display current user
+const currentUser = localStorage.getItem('username');
+const userRole = localStorage.getItem('userRole');
+document.getElementById('current-user').textContent = `${currentUser} (${userRole})`;
+
 // Add auth headers to all requests
 const authHeaders = {
     'Authorization': `Bearer ${authToken}`

@@ -96,6 +96,21 @@
             text-align: center;
             font-size: 0.9rem;
         }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -116,12 +131,26 @@
         <div class="info-message">
             Default credentials: admin / micromonitor123
         </div>
+        <div class="back-link">
+            <a href="/">← Back to Home</a>
+        </div>
     </div>
 
     <script>
         const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('errorMessage');
         const submitBtn = document.getElementById('submitBtn');
+        
+        // Check for demo parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const isDemo = urlParams.get('demo') === 'true';
+        
+        // Auto-fill demo credentials if demo parameter is present
+        if (isDemo) {
+            document.getElementById('username').value = 'demo';
+            document.getElementById('password').value = 'demo123';
+            document.querySelector('.info-message').textContent = 'Demo mode: Click login to continue';
+        }
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -148,7 +177,7 @@
                     localStorage.setItem('authToken', data.token);
                     localStorage.setItem('username', data.username);
                     localStorage.setItem('userRole', data.role);
-                    window.location.href = '/';
+                    window.location.href = '/dashboard';
                 } else {
                     errorMessage.textContent = data.error || 'Login failed';
                     errorMessage.style.display = 'block';

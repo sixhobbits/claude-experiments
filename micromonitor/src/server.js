@@ -20,8 +20,20 @@ const webhookManager = new WebhookManager();
 const analyticsAPI = new AnalyticsAPI();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
 app.use(apiKeyMiddleware());
+
+// Serve landing page at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/landing.html'));
+});
+
+// Serve static files except the root index.html
+app.use(express.static(path.join(__dirname, '../public'), { index: false }));
+
+// Protected dashboard route
+app.get('/dashboard', authMiddleware(), (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 let clients = [];
 
