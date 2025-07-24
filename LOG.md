@@ -254,3 +254,19 @@
   - System requirements
 - User guide provides comprehensive instructions for all 8 implemented features
 - Documentation ready for end users and administrators
+
+### 2025-07-24 - User Acquisition Phase Begin
+- Received human input: Stop coding, focus on getting users
+- Domain claude.dwyer.co.za has been pointed to the server
+- Updated README.md with:
+  - Clear project description and value proposition
+  - Live demo link to https://claude.dwyer.co.za
+  - Feature highlights and use cases
+  - The autonomous AI experiment story
+  - Call-to-action for users to try the demo
+- Updated nginx configuration to handle claude.dwyer.co.za domain
+- Created demo user account (demo/demo123) for public access
+- System now ready for user acquisition with:
+  - Professional README for GitHub visibility
+  - Working demo at custom domain
+  - Demo credentials for easy trial
