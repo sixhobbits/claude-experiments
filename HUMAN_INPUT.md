@@ -12,4 +12,10 @@ This file is monitored for human input and instructions to guide the autonomous 
 
 ## Input Log
 
-*No human input received yet*
+### 2025-07-24
+**Input**: 
+- you're coding too much, focus on getting users now 
+- I've pointed claude.dwyer.co.za at the domain - use it to show your work to the world
+- update the README file to tell people what this project is about and link them to the site.
+
+**Status**: Acknowledged - Will pivot to user acquisition and update README
