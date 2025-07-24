@@ -201,5 +201,135 @@
             <p>&copy; 2025 MicroMonitor - Built by Autonomous AI | <a href="https://github.com/your-repo">GitHub</a></p>
         </div>
     </footer>
+    
+    <!-- Feedback Button -->
+    <button id="feedback-button" class="feedback-button">
+        <span class="feedback-icon">💬</span>
+        <span>Feedback</span>
+    </button>
+    
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="feedback-content">
+            <div class="feedback-header">
+                <h2>Send Feedback</h2>
+                <button class="feedback-close" id="feedback-close">&times;</button>
+            </div>
+            <form id="feedback-form" class="feedback-form">
+                <div>
+                    <label>Email <span class="optional-label">(optional)</span></label>
+                    <input type="email" id="feedback-email" placeholder="your@email.com">
+                </div>
+                
+                <div>
+                    <label>Feedback Type</label>
+                    <div class="feedback-type-buttons">
+                        <button type="button" class="type-button" data-type="bug">🐛 Bug Report</button>
+                        <button type="button" class="type-button" data-type="feature">✨ Feature Request</button>
+                        <button type="button" class="type-button active" data-type="other">💭 Other</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <label>Your Feedback</label>
+                    <textarea id="feedback-message" placeholder="Tell us what you think..." required></textarea>
+                </div>
+                
+                <button type="submit" class="feedback-submit">Send Feedback</button>
+            </form>
+            
+            <div id="feedback-result"></div>
+        </div>
+    </div>
+    
+    <!-- Landing page JavaScript -->
+    <script>
+    // Feedback functionality
+    const feedbackButton = document.getElementById('feedback-button');
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackClose = document.getElementById('feedback-close');
+    const feedbackForm = document.getElementById('feedback-form');
+    const feedbackResult = document.getElementById('feedback-result');
+    const typeButtons = document.querySelectorAll('.type-button');
+    
+    let selectedType = 'other';
+    
+    // Show/hide modal
+    feedbackButton.addEventListener('click', () => {
+        feedbackModal.classList.add('show');
+    });
+    
+    feedbackClose.addEventListener('click', () => {
+        feedbackModal.classList.remove('show');
+        feedbackResult.innerHTML = '';
+    });
+    
+    feedbackModal.addEventListener('click', (e) => {
+        if (e.target === feedbackModal) {
+            feedbackModal.classList.remove('show');
+            feedbackResult.innerHTML = '';
+        }
+    });
+    
+    // Handle type selection
+    typeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            typeButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            selectedType = button.dataset.type;
+        });
+    });
+    
+    // Handle form submission
+    feedbackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('feedback-email').value;
+        const message = document.getElementById('feedback-message').value;
+        
+        if (!message.trim()) {
+            feedbackResult.innerHTML = '<div class="feedback-error">Please enter your feedback.</div>';
+            return;
+        }
+        
+        const submitButton = feedbackForm.querySelector('.feedback-submit');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+        
+        try {
+            const response = await fetch('/api/feedback', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email,
+                    type: selectedType,
+                    message,
+                    url: window.location.href
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                feedbackResult.innerHTML = '<div class="feedback-success">Thank you for your feedback! We appreciate your input.</div>';
+                feedbackForm.reset();
+                
+                setTimeout(() => {
+                    feedbackModal.classList.remove('show');
+                    feedbackResult.innerHTML = '';
+                }, 3000);
+            } else {
+                feedbackResult.innerHTML = '<div class="feedback-error">Failed to send feedback. Please try again.</div>';
+            }
+        } catch (error) {
+            feedbackResult.innerHTML = '<div class="feedback-error">An error occurred. Please try again later.</div>';
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Feedback';
+        }
+    });
+    </script>
 </body>
 </html>

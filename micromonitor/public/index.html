@@ -296,6 +296,46 @@
         </footer>
     </div>
     
+    <!-- Feedback Button -->
+    <button id="feedback-button" class="feedback-button">
+        <span class="feedback-icon">💬</span>
+        <span>Feedback</span>
+    </button>
+    
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="modal">
+        <div class="feedback-content">
+            <div class="feedback-header">
+                <h2>Send Feedback</h2>
+                <button class="feedback-close" id="feedback-close">&times;</button>
+            </div>
+            <form id="feedback-form" class="feedback-form">
+                <div>
+                    <label>Email <span class="optional-label">(optional)</span></label>
+                    <input type="email" id="feedback-email" placeholder="your@email.com">
+                </div>
+                
+                <div>
+                    <label>Feedback Type</label>
+                    <div class="feedback-type-buttons">
+                        <button type="button" class="type-button" data-type="bug">🐛 Bug Report</button>
+                        <button type="button" class="type-button" data-type="feature">✨ Feature Request</button>
+                        <button type="button" class="type-button active" data-type="other">💭 Other</button>
+                    </div>
+                </div>
+                
+                <div>
+                    <label>Your Feedback</label>
+                    <textarea id="feedback-message" placeholder="Tell us what you think..." required></textarea>
+                </div>
+                
+                <button type="submit" class="feedback-submit">Send Feedback</button>
+            </form>
+            
+            <div id="feedback-result"></div>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
 </body>

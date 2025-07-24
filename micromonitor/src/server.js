@@ -9,6 +9,7 @@ const WebhookManager = require('../webhooks');
 const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } = require('./auth');
 const { apiKeyMiddleware, createApiKey, listApiKeys, deleteApiKey } = require('./apiKeys');
 const AnalyticsAPI = require('../analytics/analytics_api');
+const feedbackManager = require('./feedback');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -364,6 +365,39 @@ app.post('/api/webhooks/test', authMiddleware('admin'), async (req, res) => {
     const webhook = req.body;
     const result = await webhookManager.testWebhook(webhook);
     res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Feedback endpoints
+app.post('/api/feedback', async (req, res) => {
+  try {
+    const feedbackData = {
+      ...req.body,
+      userAgent: req.headers['user-agent']
+    };
+    const result = await feedbackManager.submitFeedback(feedbackData);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/feedback', authMiddleware('admin'), async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 50;
+    const feedback = await feedbackManager.getFeedback(limit);
+    res.json(feedback);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/feedback/stats', authMiddleware('admin'), async (req, res) => {
+  try {
+    const stats = await feedbackManager.getFeedbackStats();
+    res.json(stats);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

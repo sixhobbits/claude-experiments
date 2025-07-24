@@ -1,0 +1,12 @@
+[
+  {
+    "id": "1753369753384",
+    "timestamp": "2025-07-24T15:09:13.384Z",
+    "email": "test@example.com",
+    "type": "feature",
+    "message": "This is a test feedback message",
+    "url": "http://localhost:3000/dashboard",
+    "userAgent": "curl/7.68.0",
+    "createdAt": "2025-07-24T15:09:13.384Z"
+  }
+]
