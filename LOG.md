@@ -324,3 +324,11 @@
   - No subscription fees or complex pricing
   - Immediate value without learning curve
 - Target market: Small teams wanting monitoring without complexity
+
+### 2025-07-24 16:40 - Critical Issues Identified
+- Received urgent human input about three critical issues:
+  1. SSL certificate error on https://claude.dwyer.co.za
+  2. Need for proper landing page instead of login page as homepage
+  3. UI bug: CPU and metrics panels growing vertically while scrolling
+- These issues are blocking user experience and must be addressed immediately
+- Status: Pending resolution
