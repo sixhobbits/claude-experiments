@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const puppeteer = require('puppeteer');
 const SystemMetrics = require('./metrics');
 const DataStore = require('./dataStore');
 const AlertManager = require('./alerts');
@@ -118,6 +119,122 @@ app.get('/api/metrics/export/csv', authMiddleware(), async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename=micromonitor-metrics-${new Date().toISOString().split('T')[0]}.csv`);
     res.send(rows.join('\n'));
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/metrics/export/pdf', authMiddleware(), async (req, res) => {
+  try {
+    const hours = parseInt(req.query.hours) || 24;
+    const history = await dataStore.getHistory(hours);
+    const config = await dataStore.getConfig();
+    
+    // Generate HTML content for PDF
+    const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; font-weight: bold; }
+        .summary { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .metric-value { font-weight: bold; color: #2c5aa0; }
+        .footer { margin-top: 40px; text-align: center; color: #999; font-size: 12px; }
+      </style>
+    </head>
+    <body>
+      <h1>MicroMonitor System Metrics Report</h1>
+      <p>Generated on: ${new Date().toLocaleString()}</p>
+      <p>Time Range: Last ${hours} hours</p>
+      
+      <div class="summary">
+        <h2>Summary Statistics</h2>
+        <p>Total Data Points: <span class="metric-value">${history.length}</span></p>
+        <p>Average CPU Usage: <span class="metric-value">${(history.reduce((sum, entry) => sum + entry.cpu.usage, 0) / history.length).toFixed(2)}%</span></p>
+        <p>Average Memory Usage: <span class="metric-value">${(history.reduce((sum, entry) => sum + entry.memory.usagePercent, 0) / history.length).toFixed(2)}%</span></p>
+        <p>Average Disk Usage: <span class="metric-value">${(history.reduce((sum, entry) => sum + entry.disk.usagePercent, 0) / history.length).toFixed(2)}%</span></p>
+      </div>
+      
+      <h2>Alert Thresholds</h2>
+      <table>
+        <tr>
+          <th>Metric</th>
+          <th>Threshold</th>
+          <th>Email Alerts</th>
+        </tr>
+        <tr>
+          <td>CPU Usage</td>
+          <td>${config.alertThresholds?.cpu || 80}%</td>
+          <td>${config.emailConfig?.enabled ? 'Enabled' : 'Disabled'}</td>
+        </tr>
+        <tr>
+          <td>Memory Usage</td>
+          <td>${config.alertThresholds?.memory || 85}%</td>
+          <td>${config.emailConfig?.enabled ? 'Enabled' : 'Disabled'}</td>
+        </tr>
+        <tr>
+          <td>Disk Usage</td>
+          <td>${config.alertThresholds?.disk || 90}%</td>
+          <td>${config.emailConfig?.enabled ? 'Enabled' : 'Disabled'}</td>
+        </tr>
+      </table>
+      
+      <h2>Detailed Metrics History</h2>
+      <table>
+        <tr>
+          <th>Timestamp</th>
+          <th>CPU %</th>
+          <th>Memory %</th>
+          <th>Disk %</th>
+          <th>Uptime (hours)</th>
+        </tr>
+        ${history.slice(0, 100).map(entry => `
+        <tr>
+          <td>${new Date(entry.timestamp).toLocaleString()}</td>
+          <td>${entry.cpu.usage.toFixed(2)}</td>
+          <td>${entry.memory.usagePercent.toFixed(2)}</td>
+          <td>${entry.disk.usagePercent.toFixed(2)}</td>
+          <td>${(entry.uptime / 3600).toFixed(2)}</td>
+        </tr>
+        `).join('')}
+      </table>
+      ${history.length > 100 ? '<p><em>Showing first 100 entries of ' + history.length + ' total</em></p>' : ''}
+      
+      <div class="footer">
+        <p>MicroMonitor - Lightweight Server Monitoring</p>
+      </div>
+    </body>
+    </html>
+    `;
+    
+    // Launch headless browser
+    const browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+    
+    const page = await browser.newPage();
+    await page.setContent(htmlContent);
+    
+    // Generate PDF
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '20px', right: '20px', bottom: '20px', left: '20px' }
+    });
+    
+    await browser.close();
+    
+    // Send PDF
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=micromonitor-report-${new Date().toISOString().split('T')[0]}.pdf`);
+    res.send(pdfBuffer);
+  } catch (error) {
+    console.error('PDF generation error:', error);
     res.status(500).json({ error: error.message });
   }
 });

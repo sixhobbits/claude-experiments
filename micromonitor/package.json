@@ -21,7 +21,8 @@
     "bcryptjs": "^3.0.2",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^7.0.5"
+    "nodemailer": "^7.0.5",
+    "puppeteer": "^24.15.0"
   },
   "engines": {
     "node": ">=14.0.0"

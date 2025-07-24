@@ -783,3 +783,39 @@ document.getElementById('export-csv-btn').onclick = async () => {
         alert('Failed to export data');
     }
 };
+
+// PDF Export functionality
+document.getElementById('export-pdf-btn').onclick = async () => {
+    const hours = document.getElementById('export-hours').value;
+    
+    try {
+        const response = await fetch(`/api/metrics/export/pdf?hours=${hours}`, {
+            headers: getAuthHeaders()
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to export PDF');
+        }
+        
+        // Get the filename from the Content-Disposition header
+        const disposition = response.headers.get('Content-Disposition');
+        const filenameMatch = disposition?.match(/filename="(.+)"/);
+        const filename = filenameMatch ? filenameMatch[1] : `micromonitor-report-${new Date().toISOString().split('T')[0]}.pdf`;
+        
+        // Create a blob from the response
+        const blob = await response.blob();
+        
+        // Create a download link and click it
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    } catch (error) {
+        console.error('Error exporting PDF:', error);
+        alert('Failed to export PDF report');
+    }
+};

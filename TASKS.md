@@ -35,7 +35,7 @@
 - [x] Implement webhook notifications - COMPLETED
 - [x] Create API key authentication - COMPLETED
 - [x] Add CSV export features - COMPLETED
-- [ ] Add PDF export features
+- [x] Add PDF export features - COMPLETED
 
 ## Recently Completed
 - [x] Complete dashboard UI - COMPLETED
