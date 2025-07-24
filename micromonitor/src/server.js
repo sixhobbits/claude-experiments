@@ -3,6 +3,7 @@ const path = require('path');
 const SystemMetrics = require('./metrics');
 const DataStore = require('./dataStore');
 const AlertManager = require('./alerts');
+const ProcessMonitor = require('./processes');
 const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } = require('./auth');
 
 const app = express();
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000;
 const metrics = new SystemMetrics();
 const dataStore = new DataStore();
 const alertManager = new AlertManager(dataStore);
+const processMonitor = new ProcessMonitor();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
@@ -118,6 +120,35 @@ app.get('/api/alerts/history', authMiddleware(), async (req, res) => {
   try {
     const history = await alertManager.getAlertHistory();
     res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Process monitoring endpoints
+app.get('/api/processes', authMiddleware(), async (req, res) => {
+  try {
+    const processStats = await processMonitor.getProcessStats();
+    res.json(processStats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/processes/:name', authMiddleware(), async (req, res) => {
+  try {
+    const processInfo = await processMonitor.getSpecificProcess(req.params.name);
+    res.json(processInfo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/processes/check', authMiddleware(), async (req, res) => {
+  try {
+    const { processes } = req.body;
+    const results = await processMonitor.checkCriticalProcesses(processes || []);
+    res.json(results);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

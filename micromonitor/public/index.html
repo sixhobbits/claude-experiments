@@ -61,6 +61,52 @@
             </div>
         </div>
         
+        <div class="processes-section">
+            <h3>Process Monitoring</h3>
+            <div class="process-stats">
+                <span>Total Processes: <strong id="total-processes">--</strong></span>
+                <span>Running: <strong id="running-processes">--</strong></span>
+                <span>Sleeping: <strong id="sleeping-processes">--</strong></span>
+                <button id="refresh-processes-btn" class="refresh-btn">Refresh</button>
+            </div>
+            <div class="process-tables">
+                <div class="process-table-container">
+                    <h4>Top Processes by CPU</h4>
+                    <table id="cpu-processes-table" class="process-table">
+                        <thead>
+                            <tr>
+                                <th>PID</th>
+                                <th>Name</th>
+                                <th>CPU %</th>
+                                <th>MEM %</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="process-table-container">
+                    <h4>Top Processes by Memory</h4>
+                    <table id="memory-processes-table" class="process-table">
+                        <thead>
+                            <tr>
+                                <th>PID</th>
+                                <th>Name</th>
+                                <th>MEM %</th>
+                                <th>CPU %</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
         <div class="alerts-section">
             <h3>Alert Configuration</h3>
             <div class="alert-controls">

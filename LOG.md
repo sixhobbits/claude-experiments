@@ -119,3 +119,31 @@
   - Shows all current system metrics in email body
 - Successfully tested alert system functionality
 - System ready for production use with email notifications
+
+### 2025-07-24 - Process Monitoring Implementation
+- Implemented comprehensive process monitoring feature
+- Created processes.js module with ProcessMonitor class
+- Added process monitoring capabilities:
+  - Real-time process listing with CPU and memory usage
+  - Top processes by CPU and memory usage
+  - Process count by state (Running, Sleeping, Idle, etc.)
+  - Specific process search functionality
+  - Critical process monitoring support
+- Added API endpoints:
+  - GET /api/processes - Get current process statistics
+  - GET /api/processes/:name - Search for specific process
+  - POST /api/processes/check - Check critical processes status
+- Enhanced dashboard UI:
+  - Added process monitoring section with live statistics
+  - Two tables showing top 10 processes by CPU and memory
+  - Process state counters (total, running, sleeping)
+  - Manual refresh button for on-demand updates
+- Frontend updates:
+  - Process data auto-refreshes every 30 seconds
+  - Responsive tables with hover effects
+  - Process command truncation with full text on hover
+- Styling improvements:
+  - Added process table styles to match existing UI
+  - Responsive design for mobile devices
+- Successfully tested all process monitoring features
+- Service restarted and running with new functionality

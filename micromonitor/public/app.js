@@ -60,9 +60,9 @@ const memoryChart = new Chart(memoryChartCtx, {
 // Update metrics
 function updateMetrics(data) {
     document.getElementById('cpu-usage').textContent = data.cpu.usage.toFixed(1);
-    document.getElementById('memory-usage').textContent = data.memory.usagePercent.toFixed(1);
-    document.getElementById('disk-usage').textContent = data.disk.usagePercent.toFixed(1);
-    document.getElementById('uptime').textContent = (data.uptime / 86400).toFixed(1);
+    document.getElementById('memory-usage').textContent = data.memory.percentage.toFixed(1);
+    document.getElementById('disk-usage').textContent = data.disk.percentage.toFixed(1);
+    document.getElementById('uptime').textContent = (data.uptime.seconds / 86400).toFixed(1);
     
     const now = new Date();
     document.getElementById('last-update').textContent = now.toLocaleTimeString();
@@ -81,7 +81,7 @@ function updateMetrics(data) {
     
     // Memory Chart
     memoryChart.data.labels.push(timeLabel);
-    memoryChart.data.datasets[0].data.push(data.memory.usagePercent);
+    memoryChart.data.datasets[0].data.push(data.memory.percentage);
     if (memoryChart.data.labels.length > 20) {
         memoryChart.data.labels.shift();
         memoryChart.data.datasets[0].data.shift();
@@ -330,14 +330,84 @@ modal.onclick = (e) => {
     }
 };
 
+// Process monitoring functionality
+async function fetchProcesses() {
+    try {
+        const response = await fetch('/api/processes', {
+            headers: authHeaders
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            updateProcessDisplay(data);
+        }
+    } catch (error) {
+        console.error('Failed to fetch processes:', error);
+    }
+}
+
+function updateProcessDisplay(data) {
+    // Update process counts
+    document.getElementById('total-processes').textContent = data.totalProcesses || 0;
+    document.getElementById('running-processes').textContent = data.processCounts['Running'] || 0;
+    document.getElementById('sleeping-processes').textContent = data.processCounts['Sleeping'] || 0;
+    
+    // Update CPU processes table
+    const cpuTableBody = document.querySelector('#cpu-processes-table tbody');
+    cpuTableBody.innerHTML = '';
+    
+    if (data.topProcessesByCpu && data.topProcessesByCpu.length > 0) {
+        data.topProcessesByCpu.forEach(proc => {
+            const row = cpuTableBody.insertRow();
+            row.innerHTML = `
+                <td>${proc.pid}</td>
+                <td title="${proc.command}">${proc.command.substring(0, 30)}${proc.command.length > 30 ? '...' : ''}</td>
+                <td>${proc.cpu.toFixed(1)}%</td>
+                <td>${proc.memory.toFixed(1)}%</td>
+                <td>${proc.user}</td>
+            `;
+        });
+    } else {
+        cpuTableBody.innerHTML = '<tr><td colspan="5">No process data available</td></tr>';
+    }
+    
+    // Update Memory processes table
+    const memTableBody = document.querySelector('#memory-processes-table tbody');
+    memTableBody.innerHTML = '';
+    
+    if (data.topProcessesByMemory && data.topProcessesByMemory.length > 0) {
+        data.topProcessesByMemory.forEach(proc => {
+            const row = memTableBody.insertRow();
+            row.innerHTML = `
+                <td>${proc.pid}</td>
+                <td title="${proc.command}">${proc.command.substring(0, 30)}${proc.command.length > 30 ? '...' : ''}</td>
+                <td>${proc.memory.toFixed(1)}%</td>
+                <td>${proc.cpu.toFixed(1)}%</td>
+                <td>${proc.user}</td>
+            `;
+        });
+    } else {
+        memTableBody.innerHTML = '<tr><td colspan="5">No process data available</td></tr>';
+    }
+}
+
+// Process refresh button
+document.getElementById('refresh-processes-btn').onclick = () => {
+    fetchProcesses();
+};
+
 // Initial fetch
 fetchMetrics();
 fetchRetentionStats();
 fetchConfig();
 fetchAlertHistory();
+fetchProcesses();
 
 // Refresh retention stats every minute
 setInterval(fetchRetentionStats, 60000);
 
 // Refresh alert history every 30 seconds
 setInterval(fetchAlertHistory, 30000);
+
+// Refresh processes every 30 seconds
+setInterval(fetchProcesses, 30000);

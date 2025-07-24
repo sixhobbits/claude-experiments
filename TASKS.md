@@ -32,7 +32,6 @@
 ## Backlog
 - [ ] Configure domain and SSL
 - [ ] Create user documentation
-- [ ] Add process-level monitoring
 - [ ] Implement webhook notifications
 - [ ] Create API key authentication
 - [ ] Add CSV/PDF export features
@@ -46,3 +45,4 @@
 - [x] Implement authentication system - COMPLETED
 - [x] Add data retention with time-based cleanup - COMPLETED
 - [x] Create email alert system - COMPLETED
+- [x] Add process-level monitoring - COMPLETED
