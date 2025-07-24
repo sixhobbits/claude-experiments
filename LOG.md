@@ -186,3 +186,36 @@
   - data: Event-specific data (alert info, metrics)
 - Successfully tested webhook system
 - Service restarted and running with new functionality
+
+### 2025-07-24 - API Key Authentication and CSV Export Implementation
+- Implemented comprehensive API key authentication system
+- Created apiKeys.js module with:
+  - API key generation with secure hashing (SHA-256)
+  - Permission-based access control (read, write, all)
+  - Usage tracking and last-used timestamps
+  - Key management (create, list, delete)
+- Enhanced authentication middleware to support both JWT and API keys
+- Added API endpoints:
+  - GET /api/keys - List all API keys (admin only)
+  - POST /api/keys - Create new API key (admin only)
+  - DELETE /api/keys/:keyId - Delete API key (admin only)
+- Created UI for API key management:
+  - Modal interface for creating and managing keys
+  - Secure key display with copy functionality
+  - Permission selection (read, write, full access)
+  - Usage statistics display
+- API key usage:
+  - Clients use header: X-API-Key: mk_[key]
+  - Keys prefixed with mk_ for identification
+  - Support for programmatic access to all endpoints
+- Implemented CSV export functionality:
+  - GET /api/metrics/export/csv endpoint
+  - Configurable time range (1 hour to 7 days)
+  - Exports CPU, Memory, Disk usage and uptime data
+  - Automatic filename generation with date
+  - Browser download trigger
+- Added export UI section to dashboard:
+  - Time range selector
+  - Export button with download functionality
+- Successfully tested both features
+- Service restarted and running with new capabilities

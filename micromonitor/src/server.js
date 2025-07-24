@@ -6,6 +6,7 @@ const AlertManager = require('./alerts');
 const ProcessMonitor = require('./processes');
 const WebhookManager = require('../webhooks');
 const { authMiddleware, authenticateUser, createUser, initializeDefaultAdmin } = require('./auth');
+const { apiKeyMiddleware, createApiKey, listApiKeys, deleteApiKey } = require('./apiKeys');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ const webhookManager = new WebhookManager();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(apiKeyMiddleware());
 
 let clients = [];
 
@@ -41,6 +43,35 @@ app.post('/api/auth/register', authMiddleware('admin'), async (req, res) => {
   }
 });
 
+// API Key management endpoints
+app.get('/api/keys', authMiddleware('admin'), async (req, res) => {
+  try {
+    const keys = await listApiKeys();
+    res.json(keys);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/keys', authMiddleware('admin'), async (req, res) => {
+  try {
+    const { name, permissions } = req.body;
+    const result = await createApiKey(name, permissions);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.delete('/api/keys/:keyId', authMiddleware('admin'), async (req, res) => {
+  try {
+    await deleteApiKey(req.params.keyId);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 app.get('/api/metrics', authMiddleware(), async (req, res) => {
   try {
     const data = await metrics.getAllMetrics();
@@ -56,6 +87,36 @@ app.get('/api/metrics/history', authMiddleware(), async (req, res) => {
     const hours = parseInt(req.query.hours) || 24;
     const history = await dataStore.getHistory(hours);
     res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/metrics/export/csv', authMiddleware(), async (req, res) => {
+  try {
+    const hours = parseInt(req.query.hours) || 24;
+    const history = await dataStore.getHistory(hours);
+    
+    // Create CSV headers
+    const headers = ['Timestamp', 'CPU %', 'Memory %', 'Disk %', 'Uptime (hours)'];
+    const rows = [headers.join(',')];
+    
+    // Add data rows
+    history.forEach(entry => {
+      const row = [
+        new Date(entry.timestamp).toISOString(),
+        entry.cpu.usage.toFixed(2),
+        entry.memory.usagePercent.toFixed(2),
+        entry.disk.usagePercent.toFixed(2),
+        (entry.uptime / 3600).toFixed(2)
+      ];
+      rows.push(row.join(','));
+    });
+    
+    // Set headers for CSV download
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename=micromonitor-metrics-${new Date().toISOString().split('T')[0]}.csv`);
+    res.send(rows.join('\n'));
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

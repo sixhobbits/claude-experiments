@@ -73,6 +73,23 @@ function verifyToken(token) {
 
 function authMiddleware(requiredRole = null) {
     return (req, res, next) => {
+        if (req.isApiKeyAuth) {
+            const hasReadPermission = req.apiKey.permissions.includes('read') || 
+                                    req.apiKey.permissions.includes('all');
+            const hasWritePermission = req.apiKey.permissions.includes('write') || 
+                                     req.apiKey.permissions.includes('all');
+            
+            if (requiredRole === 'admin' && !req.apiKey.permissions.includes('all')) {
+                return res.status(403).json({ error: 'Insufficient API key permissions' });
+            }
+            
+            if (requiredRole && !hasWritePermission) {
+                return res.status(403).json({ error: 'API key requires write permission' });
+            }
+            
+            return next();
+        }
+        
         const authHeader = req.headers.authorization;
         
         if (!authHeader || !authHeader.startsWith('Bearer ')) {

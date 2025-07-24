@@ -454,6 +454,68 @@ footer {
     margin-bottom: 20px;
 }
 
+.api-keys-section {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.export-section {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.export-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.export-controls label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.export-controls select {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.export-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.export-btn:hover {
+    background: #219a52;
+}
+
+.api-keys-info {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.api-keys-info code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
 .webhook-controls {
     display: flex;
     justify-content: space-between;
@@ -579,4 +641,82 @@ footer {
 
 .delete-btn:hover {
     background-color: #c0392b;
+}
+
+/* API Key Modal Styles */
+.api-keys-list-container {
+    margin-bottom: 20px;
+}
+
+#api-keys-list {
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.api-key-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.api-key-info {
+    flex: 1;
+}
+
+.api-key-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.api-key-meta {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.api-key-permissions {
+    margin: 10px 0;
+}
+
+.api-key-permissions label {
+    display: block;
+    margin: 5px 0;
+}
+
+.api-key-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.api-key-value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.api-key-value code {
+    flex: 1;
+    word-break: break-all;
+    font-family: monospace;
+}
+
+.copy-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 3px;
+    cursor: pointer;
 }

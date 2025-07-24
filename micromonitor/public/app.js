@@ -592,3 +592,194 @@ setInterval(fetchWebhookHistory, 30000);
 
 // Refresh processes every 30 seconds
 setInterval(fetchProcesses, 30000);
+
+// API Key Management
+let currentApiKeys = [];
+
+async function fetchApiKeys() {
+    try {
+        const response = await fetch('/api/keys', {
+            headers: getAuthHeaders()
+        });
+        
+        if (!response.ok) {
+            if (response.status === 403) {
+                // User doesn't have admin access
+                document.getElementById('manage-api-keys-btn').style.display = 'none';
+                return;
+            }
+            throw new Error('Failed to fetch API keys');
+        }
+        
+        currentApiKeys = await response.json();
+        updateApiKeysList();
+    } catch (error) {
+        console.error('Error fetching API keys:', error);
+    }
+}
+
+function updateApiKeysList() {
+    const listElement = document.getElementById('api-keys-list');
+    
+    if (currentApiKeys.length === 0) {
+        listElement.innerHTML = '<p style="color: #666;">No API keys created yet.</p>';
+        return;
+    }
+    
+    listElement.innerHTML = currentApiKeys.map(key => `
+        <div class="api-key-item">
+            <div class="api-key-info">
+                <div class="api-key-name">${key.name}</div>
+                <div class="api-key-meta">
+                    Permissions: ${key.permissions.join(', ')} | 
+                    Created: ${new Date(key.createdAt).toLocaleString()} | 
+                    Used: ${key.usageCount} times
+                    ${key.lastUsed ? ` | Last: ${new Date(key.lastUsed).toLocaleString()}` : ''}
+                </div>
+            </div>
+            <button class="delete-btn" onclick="deleteApiKey('${key.id}')">Delete</button>
+        </div>
+    `).join('');
+}
+
+window.deleteApiKey = async function(keyId) {
+    if (!confirm('Are you sure you want to delete this API key? This action cannot be undone.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/keys/${keyId}`, {
+            method: 'DELETE',
+            headers: getAuthHeaders()
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to delete API key');
+        }
+        
+        await fetchApiKeys();
+    } catch (error) {
+        console.error('Error deleting API key:', error);
+        alert('Failed to delete API key');
+    }
+}
+
+document.getElementById('manage-api-keys-btn').onclick = async () => {
+    await fetchApiKeys();
+    document.getElementById('api-keys-modal').style.display = 'block';
+    document.getElementById('api-key-creator').style.display = 'none';
+    document.getElementById('api-key-display').style.display = 'none';
+};
+
+document.getElementById('close-api-keys-modal').onclick = () => {
+    document.getElementById('api-keys-modal').style.display = 'none';
+};
+
+document.getElementById('create-api-key-btn').onclick = () => {
+    document.getElementById('api-key-creator').style.display = 'block';
+    document.getElementById('api-key-display').style.display = 'none';
+    document.getElementById('api-key-name').value = '';
+    document.querySelectorAll('.api-key-permissions input').forEach(cb => cb.checked = cb.value === 'read');
+};
+
+document.getElementById('cancel-api-key-btn').onclick = () => {
+    document.getElementById('api-key-creator').style.display = 'none';
+};
+
+document.getElementById('generate-api-key-btn').onclick = async () => {
+    const name = document.getElementById('api-key-name').value.trim();
+    if (!name) {
+        alert('Please enter a name for the API key');
+        return;
+    }
+    
+    const permissions = [];
+    document.querySelectorAll('.api-key-permissions input:checked').forEach(cb => {
+        permissions.push(cb.value);
+    });
+    
+    if (permissions.length === 0) {
+        alert('Please select at least one permission');
+        return;
+    }
+    
+    // If 'all' is selected, use only that
+    const finalPermissions = permissions.includes('all') ? ['all'] : permissions;
+    
+    try {
+        const response = await fetch('/api/keys', {
+            method: 'POST',
+            headers: {
+                ...getAuthHeaders(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, permissions: finalPermissions })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to create API key');
+        }
+        
+        const result = await response.json();
+        document.getElementById('generated-api-key').textContent = result.key;
+        document.getElementById('api-key-creator').style.display = 'none';
+        document.getElementById('api-key-display').style.display = 'block';
+        
+        await fetchApiKeys();
+    } catch (error) {
+        console.error('Error creating API key:', error);
+        alert('Failed to create API key');
+    }
+};
+
+document.getElementById('copy-api-key-btn').onclick = () => {
+    const keyText = document.getElementById('generated-api-key').textContent;
+    navigator.clipboard.writeText(keyText).then(() => {
+        const btn = document.getElementById('copy-api-key-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+};
+
+document.getElementById('done-api-key-btn').onclick = () => {
+    document.getElementById('api-key-display').style.display = 'none';
+};
+
+// Check if user has admin access on load
+fetchApiKeys();
+
+// CSV Export functionality
+document.getElementById('export-csv-btn').onclick = async () => {
+    const hours = document.getElementById('export-hours').value;
+    
+    try {
+        const response = await fetch(`/api/metrics/export/csv?hours=${hours}`, {
+            headers: getAuthHeaders()
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to export data');
+        }
+        
+        // Get the filename from the Content-Disposition header
+        const disposition = response.headers.get('Content-Disposition');
+        const filenameMatch = disposition?.match(/filename="(.+)"/);
+        const filename = filenameMatch ? filenameMatch[1] : `micromonitor-export-${new Date().toISOString().split('T')[0]}.csv`;
+        
+        // Create a blob from the response
+        const blob = await response.blob();
+        
+        // Create a download link and click it
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+    } catch (error) {
+        console.error('Error exporting data:', error);
+        alert('Failed to export data');
+    }
+};

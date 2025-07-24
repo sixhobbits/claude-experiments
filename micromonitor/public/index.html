@@ -51,6 +51,22 @@
             </div>
         </div>
         
+        <div class="export-section">
+            <h3>Data Export</h3>
+            <div class="export-controls">
+                <label>Export last: 
+                    <select id="export-hours">
+                        <option value="1">1 hour</option>
+                        <option value="6">6 hours</option>
+                        <option value="24" selected>24 hours</option>
+                        <option value="48">48 hours</option>
+                        <option value="168">7 days</option>
+                    </select>
+                </label>
+                <button id="export-csv-btn" class="export-btn">Export to CSV</button>
+            </div>
+        </div>
+        
         <div class="retention-section">
             <h3>Data Retention Status</h3>
             <div class="retention-stats">
@@ -136,6 +152,17 @@
                 </div>
             </div>
         </div>
+        
+        <div class="api-keys-section">
+            <h3>API Keys</h3>
+            <div class="api-keys-controls">
+                <button id="manage-api-keys-btn" class="config-btn">Manage API Keys</button>
+            </div>
+            <div class="api-keys-info">
+                <p>API keys allow programmatic access to MicroMonitor endpoints.</p>
+                <p>Use the header <code>X-API-Key: your_key_here</code> in your requests.</p>
+            </div>
+        </div>
 
         <div id="config-modal" class="modal" style="display: none;">
             <div class="modal-content">
@@ -204,6 +231,51 @@
                     
                     <div class="modal-buttons">
                         <button id="close-webhook-modal" class="cancel-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="api-keys-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>API Key Management</h2>
+                <div class="api-keys-form">
+                    <div class="api-keys-list-container">
+                        <h3>Existing API Keys</h3>
+                        <div id="api-keys-list"></div>
+                        <button id="create-api-key-btn" class="add-btn">Create New API Key</button>
+                    </div>
+                    
+                    <div id="api-key-creator" style="display: none;">
+                        <h3>Create API Key</h3>
+                        <label>Name: <input type="text" id="api-key-name" placeholder="Production API Key"></label>
+                        <label>Permissions:
+                            <div class="api-key-permissions">
+                                <label><input type="checkbox" value="read" checked> Read Access</label>
+                                <label><input type="checkbox" value="write"> Write Access</label>
+                                <label><input type="checkbox" value="all"> Full Access</label>
+                            </div>
+                        </label>
+                        <div class="api-key-buttons">
+                            <button id="generate-api-key-btn" class="save-btn">Generate Key</button>
+                            <button id="cancel-api-key-btn" class="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <div id="api-key-display" style="display: none;">
+                        <h3>API Key Created</h3>
+                        <div class="api-key-warning">
+                            <strong>Important:</strong> Copy this key now. You won't be able to see it again!
+                        </div>
+                        <div class="api-key-value">
+                            <code id="generated-api-key"></code>
+                            <button id="copy-api-key-btn" class="copy-btn">Copy</button>
+                        </div>
+                        <button id="done-api-key-btn" class="save-btn">Done</button>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button id="close-api-keys-modal" class="cancel-btn">Close</button>
                     </div>
                 </div>
             </div>

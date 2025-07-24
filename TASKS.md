@@ -33,8 +33,9 @@
 - [ ] Configure domain and SSL
 - [ ] Create user documentation
 - [x] Implement webhook notifications - COMPLETED
-- [ ] Create API key authentication
-- [ ] Add CSV/PDF export features
+- [x] Create API key authentication - COMPLETED
+- [x] Add CSV export features - COMPLETED
+- [ ] Add PDF export features
 
 ## Recently Completed
 - [x] Complete dashboard UI - COMPLETED
