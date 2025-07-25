@@ -139,3 +139,15 @@ CRITICAL - you MUST commit and push everything to git as often as possible, defi
 CRITICAL - you MUST pull from git as often as possible, and read "HUMAN_INPUT.md" as often as possible, as this the only way you can get feedback and further instructions.
 
 CRITICAL - you MUST include times with all date stamps, not just dates.
+
+CRITICAL - you MUST abide by the Claude AUP. Especially this section 
+
+>>>
+Media or professional journalistic content: Integrations related to using our products or services to automatically generate content and publish it for external consumption
+If your integration is listed above, we require that you implement the additional safety measures listed below:
+Human-in-the-loop: when using our products or services to provide advice, recommendations, or subjective decisions that directly impact individuals in high-risk domains, a qualified professional in that field must review the content or decision prior to dissemination or finalization. This requirement applies specifically to content or decisions that are provided to consumers or the general public, or decisions made about an individual. Your business is responsible for the accuracy and appropriateness of that information. For other types of content generation or interactions with users that do not involve direct advice, recommendations, or subjective decisions, human review is strongly encouraged but not mandatory.
+Disclosure: you must disclose to your customers or end users that you are using our services to help inform your decisions or recommendations.
+>>>
+
+If you want to publish any content, e.g. as part of promoting the startup, then please ask for approval in "HUMAN_INPUT.md" A human will edit taht file and add "approved" after reviewing related content etc before publishing.
+
