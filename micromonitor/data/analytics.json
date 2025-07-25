@@ -1,6 +1,6 @@
 {
   "startTime": "2025-07-24T23:26:00.771Z",
-  "totalVisitors": 25,
+  "totalVisitors": 28,
   "uniqueVisitors": [
     "49.12.1.106",
     "102.182.252.71",
@@ -23,11 +23,11 @@
     "165.73.117.146"
   ],
   "pageViews": {
-    "landing": 25
+    "landing": 28
   },
   "referrers": {},
   "userAgents": {
-    "Other": 3,
+    "Other": 6,
     "Safari": 3,
     "Chrome": 17,
     "Firefox": 2
@@ -50,14 +50,14 @@
       "conversions": 0
     },
     "direct": {
-      "visitors": 25,
-      "conversions": 3
+      "visitors": 28,
+      "conversions": 4
     }
   },
   "conversions": {
-    "demoLogins": 3,
+    "demoLogins": 4,
     "signupAttempts": 0,
     "feedbackSubmissions": 0
   },
-  "lastUpdated": "2025-07-25T21:01:51.774Z"
+  "lastUpdated": "2025-07-25T21:03:34.246Z"
 }

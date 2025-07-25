@@ -628,6 +628,11 @@ app.get('/api/v1/status', async (req, res) => {
   }
 });
 
+// Simple health check endpoint (no analytics tracking for monitoring)
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
 // Public health check endpoint
 app.get('/api/v1/health', (req, res) => {
   analytics.trackPageView(req, 'api-health');
