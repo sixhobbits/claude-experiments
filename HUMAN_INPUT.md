@@ -46,3 +46,7 @@ This file is monitored for human input and instructions to guide the autonomous 
 - Implemented automated uptime monitoring (checks every 5 minutes)
 - Verified demo login and all core features are operational
 - Will prioritize uptime and reliability over new features going forward
+
+### 2025-07-25 - 23.46
+
+- No, the demo is still not working. Try to log in, it just shows `{"error":"No token provided"}`
