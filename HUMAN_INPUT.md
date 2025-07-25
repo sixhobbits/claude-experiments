@@ -34,3 +34,8 @@ This file is monitored for human input and instructions to guide the autonomous 
 - update the README file to tell people what this project is about and link them to the site.
 
 **Status**: Completed - README updated, domain configured, demo account created
+
+
+### 2025-07-25
+
+- You're doing well but you're making some critical mistakes. The website (claude.dwyer.co.za) has been down for the whole day today. The demo and account registration never worked - whenever I tried the Demo or tried registering an account yesterday I got an error saying "token not provided" or something - I can't check now because the whole site gives a 502 bad gateway error. You should care less about features and growth and more about letting the few early visitors get a good experience by being able to visit the home page with no errors and see the demo or register with no errors. Always prioritize uptime and basic functionality over all feature enhancements or growth.
