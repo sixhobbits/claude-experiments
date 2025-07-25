@@ -424,6 +424,147 @@ app.get('/api/analytics/summary', authMiddleware('admin'), (req, res) => {
   }
 });
 
+// Public status page endpoints
+app.get('/status/:statusId', (req, res) => {
+  analytics.trackPageView(req, 'public-status');
+  res.sendFile(path.join(__dirname, '../public/status.html'));
+});
+
+app.get('/api/public/status/:statusId', async (req, res) => {
+  try {
+    const statusId = req.params.statusId;
+    const statusConfig = await dataStore.getStatusPageConfig(statusId);
+    
+    if (!statusConfig || !statusConfig.isPublic) {
+      return res.status(404).json({ error: 'Status page not found' });
+    }
+    
+    // Get current metrics and calculate uptime
+    const currentMetrics = await metrics.getAllMetrics();
+    const history = await dataStore.getHistory(24); // Last 24 hours
+    
+    // Calculate uptime percentage (system has been up if we have data)
+    const uptimePercentage = history.length > 0 ? (history.length / 288 * 100).toFixed(2) : 100; // 288 = 24h * 12 (5min intervals)
+    
+    // Determine current status
+    const status = currentMetrics.cpu.usage > 90 || currentMetrics.memory.usagePercent > 95 ? 
+      'degraded' : 'operational';
+    
+    const publicData = {
+      name: statusConfig.name,
+      description: statusConfig.description,
+      status: status,
+      uptime: uptimePercentage,
+      lastUpdated: new Date().toISOString(),
+      metrics: {
+        cpu: currentMetrics.cpu.usage.toFixed(2),
+        memory: currentMetrics.memory.usagePercent.toFixed(2),
+        disk: currentMetrics.disk.usagePercent.toFixed(2)
+      },
+      shareUrl: `https://claude.dwyer.co.za/status/${statusId}`
+    };
+    
+    res.json(publicData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Status page management endpoints
+app.get('/api/status-pages', authMiddleware(), async (req, res) => {
+  try {
+    const statusPages = await dataStore.getUserStatusPages(req.user.id);
+    res.json(statusPages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/status-pages', authMiddleware(), async (req, res) => {
+  try {
+    const { name, description, isPublic } = req.body;
+    const statusId = await dataStore.createStatusPage({
+      name,
+      description,
+      isPublic,
+      userId: req.user.id,
+      createdAt: new Date().toISOString()
+    });
+    
+    // Track status page creation
+    analytics.trackConversion('statusPageCreated', 'organic');
+    
+    res.json({ 
+      statusId, 
+      publicUrl: `https://claude.dwyer.co.za/status/${statusId}` 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.delete('/api/status-pages/:statusId', authMiddleware(), async (req, res) => {
+  try {
+    await dataStore.deleteStatusPage(req.params.statusId, req.user.id);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Badge generation endpoint
+app.get('/api/badge/:statusId', async (req, res) => {
+  try {
+    const statusId = req.params.statusId;
+    // Track badge views for viral growth analytics
+    analytics.trackPageView(req, 'badge-view');
+    
+    const statusConfig = await dataStore.getStatusPageConfig(statusId);
+    
+    if (!statusConfig || !statusConfig.isPublic) {
+      // Return a default badge for invalid status pages
+      res.setHeader('Content-Type', 'image/svg+xml');
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      return res.send(generateBadgeSVG('Service', 'Not Found', '#999'));
+    }
+    
+    // Get current metrics to determine status
+    const currentMetrics = await metrics.getAllMetrics();
+    const status = currentMetrics.cpu.usage > 90 || currentMetrics.memory.usagePercent > 95 ? 
+      'degraded' : 'operational';
+    
+    const statusText = status === 'operational' ? 'Operational' : 'Degraded';
+    const statusColor = status === 'operational' ? '#4CAF50' : '#FF9800';
+    
+    // Generate SVG badge
+    const svg = generateBadgeSVG(statusConfig.name, statusText, statusColor);
+    
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.send(svg);
+  } catch (error) {
+    console.error('Badge generation error:', error);
+    res.status(500).send(generateBadgeSVG('Error', 'Service Error', '#f44336'));
+  }
+});
+
+function generateBadgeSVG(label, status, color) {
+  const labelWidth = label.length * 6 + 10;
+  const statusWidth = status.length * 6 + 10;
+  const totalWidth = labelWidth + statusWidth;
+  
+  return `<svg width="${totalWidth}" height="20" xmlns="http://www.w3.org/2000/svg">
+    <linearGradient id="gradient">
+      <stop offset="0%" stop-color="#555"/>
+      <stop offset="100%" stop-color="#555"/>
+    </linearGradient>
+    <rect width="${labelWidth}" height="20" fill="url(#gradient)"/>
+    <rect x="${labelWidth}" width="${statusWidth}" height="20" fill="${color}"/>
+    <text x="${labelWidth/2}" y="14" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif" font-size="11">${label}</text>
+    <text x="${labelWidth + statusWidth/2}" y="14" fill="#fff" text-anchor="middle" font-family="Arial, sans-serif" font-size="11">${status}</text>
+  </svg>`;
+}
+
 // Setup analytics routes
 analyticsAPI.setupRoutes(app, authMiddleware);
 

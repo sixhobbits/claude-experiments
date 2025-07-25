@@ -922,3 +922,127 @@ feedbackForm.addEventListener('submit', async (e) => {
         submitButton.textContent = 'Send Feedback';
     }
 });
+
+// Status Pages functionality
+let statusPages = [];
+
+async function fetchStatusPages() {
+    try {
+        const response = await fetch('/api/status-pages', {
+            headers: authHeaders
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch status pages');
+        }
+        
+        statusPages = await response.json();
+        displayStatusPages();
+    } catch (error) {
+        console.error('Error fetching status pages:', error);
+    }
+}
+
+function displayStatusPages() {
+    const statusPagesList = document.getElementById('status-pages-list');
+    
+    if (statusPages.length === 0) {
+        statusPagesList.innerHTML = '<p>No status pages created yet.</p>';
+        return;
+    }
+    
+    statusPagesList.innerHTML = statusPages.map(page => `
+        <div class="status-page-item">
+            <div class="status-page-info">
+                <strong>${page.name}</strong>
+                <p>${page.description}</p>
+                <p class="status-page-url">
+                    <a href="/status/${page.id}" target="_blank">https://claude.dwyer.co.za/status/${page.id}</a>
+                    <button onclick="copyStatusPageUrl('${page.id}')" class="copy-btn">Copy</button>
+                </p>
+            </div>
+            <div class="status-page-actions">
+                <span class="status-badge ${page.isPublic ? 'public' : 'private'}">${page.isPublic ? 'Public' : 'Private'}</span>
+                <button onclick="deleteStatusPage('${page.id}')" class="delete-btn">Delete</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function copyStatusPageUrl(statusId) {
+    const url = `https://claude.dwyer.co.za/status/${statusId}`;
+    navigator.clipboard.writeText(url);
+    event.target.textContent = 'Copied!';
+    setTimeout(() => {
+        event.target.textContent = 'Copy';
+    }, 2000);
+}
+
+async function deleteStatusPage(statusId) {
+    if (!confirm('Are you sure you want to delete this status page?')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/status-pages/${statusId}`, {
+            method: 'DELETE',
+            headers: authHeaders
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to delete status page');
+        }
+        
+        await fetchStatusPages();
+    } catch (error) {
+        console.error('Error deleting status page:', error);
+        alert('Failed to delete status page');
+    }
+}
+
+// Status pages modal handlers
+document.getElementById('manage-status-pages-btn').onclick = async () => {
+    await fetchStatusPages();
+    document.getElementById('status-pages-modal').style.display = 'block';
+};
+
+document.getElementById('close-status-pages-modal').onclick = () => {
+    document.getElementById('status-pages-modal').style.display = 'none';
+};
+
+// Status page form submission
+document.getElementById('status-page-form').onsubmit = async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('status-page-name').value.trim();
+    const description = document.getElementById('status-page-description').value.trim();
+    const isPublic = document.getElementById('status-page-public').checked;
+    
+    try {
+        const response = await fetch('/api/status-pages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...authHeaders
+            },
+            body: JSON.stringify({ name, description, isPublic })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to create status page');
+        }
+        
+        const result = await response.json();
+        
+        // Show success message with URL
+        alert(`Status page created successfully!\n\nPublic URL: ${result.publicUrl}`);
+        
+        // Reset form and refresh list
+        document.getElementById('status-page-form').reset();
+        await fetchStatusPages();
+        
+    } catch (error) {
+        console.error('Error creating status page:', error);
+        alert('Failed to create status page');
+    }
+};

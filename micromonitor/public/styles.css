@@ -518,6 +518,120 @@ footer {
     margin-bottom: 20px;
 }
 
+.status-pages-section {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.status-pages-info {
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.status-pages-controls {
+    margin: 15px 0;
+}
+
+.status-pages-list {
+    margin-top: 20px;
+}
+
+.status-page-item {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-page-info strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.status-page-info p {
+    margin: 5px 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.status-page-url {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.status-page-url a {
+    color: #2196F3;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.85em;
+}
+
+.status-page-url a:hover {
+    text-decoration: underline;
+}
+
+.copy-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.copy-btn:hover {
+    background: #1976D2;
+}
+
+.status-page-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.status-badge.public {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-badge.private {
+    background: #666;
+    color: white;
+}
+
+.delete-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.delete-btn:hover {
+    background: #d32f2f;
+}
+
 .export-section {
     background: white;
     border-radius: 8px;

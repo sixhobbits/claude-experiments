@@ -171,6 +171,17 @@
                 <p>Use the header <code>X-API-Key: your_key_here</code> in your requests.</p>
             </div>
         </div>
+        
+        <div class="status-pages-section">
+            <h3>Public Status Pages</h3>
+            <div class="status-pages-controls">
+                <button id="manage-status-pages-btn" class="config-btn">Manage Status Pages</button>
+            </div>
+            <div class="status-pages-info">
+                <p>Create public status pages to share your service uptime with users.</p>
+                <p>Each status page gets a unique URL that can be shared or embedded.</p>
+            </div>
+        </div>
 
         <div id="config-modal" class="modal" style="display: none;">
             <div class="modal-content">
@@ -284,6 +295,41 @@
                     
                     <div class="modal-buttons">
                         <button id="close-api-keys-modal" class="cancel-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="status-pages-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Public Status Pages</h2>
+                <div class="config-form">
+                    <h3>Create New Status Page</h3>
+                    <form id="status-page-form">
+                        <div class="form-group">
+                            <label for="status-page-name">Service Name:</label>
+                            <input type="text" id="status-page-name" placeholder="e.g., My Web Service" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status-page-description">Description:</label>
+                            <input type="text" id="status-page-description" placeholder="e.g., Production server monitoring" required>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="status-page-public" checked>
+                                Make this status page public
+                            </label>
+                        </div>
+                        <button type="submit" class="save-btn">Create Status Page</button>
+                    </form>
+                    
+                    <h3>Existing Status Pages</h3>
+                    <div id="status-pages-list" class="status-pages-list">
+                        <p>Loading...</p>
+                    </div>
+                    
+                    <div class="modal-buttons">
+                        <button id="close-status-pages-modal" class="cancel-btn">Close</button>
                     </div>
                 </div>
             </div>

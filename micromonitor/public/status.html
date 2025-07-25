@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Status - MicroMonitor</title>
+    <meta name="description" content="Real-time service status and uptime monitoring">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .status-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .status-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        
+        .status-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+        }
+        
+        .status-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            margin-top: 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .status-operational {
+            background: #10b981;
+            color: white;
+        }
+        
+        .status-degraded {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .status-outage {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .uptime-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .uptime-percentage {
+            font-size: 3em;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 20px 0;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .metric-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #1f2937;
+            margin: 10px 0;
+        }
+        
+        .metric-label {
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+        
+        .share-section {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .share-url {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin: 15px 0;
+            word-break: break-all;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .embed-code {
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85em;
+            text-align: left;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .powered-by {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #6b7280;
+        }
+        
+        .powered-by a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .copy-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .copy-button:hover {
+            background: #2563eb;
+        }
+        
+        .last-updated {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .social-share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9em;
+            transition: opacity 0.2s;
+        }
+        
+        .share-button:hover {
+            opacity: 0.8;
+        }
+        
+        .share-button.twitter {
+            background: #1DA1F2;
+        }
+        
+        .share-button.linkedin {
+            background: #0077B5;
+        }
+        
+        .share-button.facebook {
+            background: #1877F2;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container">
+        <div class="status-header">
+            <h1 id="serviceName">Loading...</h1>
+            <p id="serviceDescription">Checking status...</p>
+            <div id="statusBadge" class="status-badge">Checking...</div>
+        </div>
+        
+        <div class="uptime-section">
+            <h2>Uptime Statistics</h2>
+            <div class="uptime-percentage" id="uptimePercentage">--%</div>
+            <p>Last 24 hours uptime</p>
+            <div class="last-updated" id="lastUpdated">Last updated: --</div>
+        </div>
+        
+        <div class="uptime-section">
+            <h2>Current Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">CPU Usage</div>
+                    <div class="metric-value" id="cpuMetric">--%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Memory Usage</div>
+                    <div class="metric-value" id="memoryMetric">--%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Disk Usage</div>
+                    <div class="metric-value" id="diskMetric">--%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="share-section">
+            <h3>Share This Status Page</h3>
+            <div class="share-url" id="shareUrl">Loading...</div>
+            <button class="copy-button" onclick="copyShareUrl()">Copy URL</button>
+            
+            <div class="social-share-buttons">
+                <button class="share-button twitter" onclick="shareOnTwitter()">
+                    Share on Twitter
+                </button>
+                <button class="share-button linkedin" onclick="shareOnLinkedIn()">
+                    Share on LinkedIn
+                </button>
+                <button class="share-button facebook" onclick="shareOnFacebook()">
+                    Share on Facebook
+                </button>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Embed Status Badge</h3>
+            <p>Add this badge to your website to show real-time status:</p>
+            <div class="embed-code" id="embedCode">Loading...</div>
+            <button class="copy-button" onclick="copyEmbedCode()">Copy Code</button>
+        </div>
+        
+        <div class="powered-by">
+            <p>Powered by <a href="https://claude.dwyer.co.za" target="_blank">MicroMonitor</a> - Free Server Monitoring</p>
+        </div>
+    </div>
+    
+    <script>
+        const statusId = window.location.pathname.split('/').pop();
+        let statusData = null;
+        
+        async function loadStatus() {
+            try {
+                const response = await fetch(`/api/public/status/${statusId}`);
+                if (!response.ok) {
+                    throw new Error('Status page not found');
+                }
+                
+                statusData = await response.json();
+                updateUI(statusData);
+            } catch (error) {
+                document.getElementById('serviceName').textContent = 'Status Page Not Found';
+                document.getElementById('serviceDescription').textContent = 'This status page does not exist or is not public.';
+                document.getElementById('statusBadge').style.display = 'none';
+            }
+        }
+        
+        function updateUI(data) {
+            // Update header
+            document.getElementById('serviceName').textContent = data.name;
+            document.getElementById('serviceDescription').textContent = data.description;
+            
+            // Update status badge
+            const statusBadge = document.getElementById('statusBadge');
+            statusBadge.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+            statusBadge.className = 'status-badge status-' + data.status;
+            
+            // Update uptime
+            document.getElementById('uptimePercentage').textContent = data.uptime + '%';
+            
+            // Update metrics
+            document.getElementById('cpuMetric').textContent = data.metrics.cpu + '%';
+            document.getElementById('memoryMetric').textContent = data.metrics.memory + '%';
+            document.getElementById('diskMetric').textContent = data.metrics.disk + '%';
+            
+            // Update last updated
+            const lastUpdated = new Date(data.lastUpdated);
+            document.getElementById('lastUpdated').textContent = 
+                'Last updated: ' + lastUpdated.toLocaleString();
+            
+            // Update share URL
+            document.getElementById('shareUrl').textContent = data.shareUrl;
+            
+            // Update embed code
+            const embedCode = `<a href="${data.shareUrl}" target="_blank"><img src="${window.location.origin}/api/badge/${statusId}" alt="${data.name} Status"></a>`;
+            document.getElementById('embedCode').textContent = embedCode;
+        }
+        
+        function copyShareUrl() {
+            const urlElement = document.getElementById('shareUrl');
+            navigator.clipboard.writeText(urlElement.textContent);
+            event.target.textContent = 'Copied!';
+            setTimeout(() => {
+                event.target.textContent = 'Copy URL';
+            }, 2000);
+        }
+        
+        function copyEmbedCode() {
+            const codeElement = document.getElementById('embedCode');
+            navigator.clipboard.writeText(codeElement.textContent);
+            event.target.textContent = 'Copied!';
+            setTimeout(() => {
+                event.target.textContent = 'Copy Code';
+            }, 2000);
+        }
+        
+        function shareOnTwitter() {
+            if (!statusData) return;
+            const text = `Check out the live status of ${statusData.name}: ${statusData.status === 'operational' ? '✅ Operational' : '⚠️ Degraded'} - ${statusData.uptime}% uptime`;
+            const url = encodeURIComponent(statusData.shareUrl);
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`, '_blank');
+        }
+        
+        function shareOnLinkedIn() {
+            if (!statusData) return;
+            const url = encodeURIComponent(statusData.shareUrl);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        }
+        
+        function shareOnFacebook() {
+            if (!statusData) return;
+            const url = encodeURIComponent(statusData.shareUrl);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+        
+        // Load status on page load
+        loadStatus();
+        
+        // Refresh every 30 seconds
+        setInterval(loadStatus, 30000);
+    </script>
+</body>
+</html>

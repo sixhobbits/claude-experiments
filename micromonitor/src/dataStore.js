@@ -7,6 +7,7 @@ class DataStore {
     this.metricsFile = path.join(this.dataDir, 'metrics.json');
     this.configFile = path.join(this.dataDir, 'config.json');
     this.archiveDir = path.join(this.dataDir, 'archive');
+    this.statusPagesFile = path.join(this.dataDir, 'status-pages.json');
     this.maxDataPoints = 720; // 1 hour of 5-second intervals
     this.retentionHours = 24; // Default 24 hours retention
     this.archiveEnabled = true;
@@ -220,6 +221,65 @@ class DataStore {
       };
     } catch {
       return { totalRecords: 0, oldestRecord: null, newestRecord: null };
+    }
+  }
+  
+  async getStatusPageConfig(statusId) {
+    try {
+      const data = await fs.readFile(this.statusPagesFile, 'utf8');
+      const statusPages = JSON.parse(data);
+      return statusPages[statusId] || null;
+    } catch {
+      return null;
+    }
+  }
+  
+  async getUserStatusPages(userId) {
+    try {
+      const data = await fs.readFile(this.statusPagesFile, 'utf8');
+      const statusPages = JSON.parse(data);
+      return Object.entries(statusPages)
+        .filter(([_, page]) => page.userId === userId)
+        .map(([id, page]) => ({ id, ...page }));
+    } catch {
+      return [];
+    }
+  }
+  
+  async createStatusPage(pageData) {
+    try {
+      let statusPages = {};
+      try {
+        const data = await fs.readFile(this.statusPagesFile, 'utf8');
+        statusPages = JSON.parse(data);
+      } catch {
+        // File doesn't exist yet
+      }
+      
+      // Generate unique ID
+      const statusId = Math.random().toString(36).substring(2, 15);
+      statusPages[statusId] = pageData;
+      
+      await fs.writeFile(this.statusPagesFile, JSON.stringify(statusPages, null, 2));
+      return statusId;
+    } catch (error) {
+      console.error('Failed to create status page:', error);
+      throw error;
+    }
+  }
+  
+  async deleteStatusPage(statusId, userId) {
+    try {
+      const data = await fs.readFile(this.statusPagesFile, 'utf8');
+      const statusPages = JSON.parse(data);
+      
+      if (statusPages[statusId] && statusPages[statusId].userId === userId) {
+        delete statusPages[statusId];
+        await fs.writeFile(this.statusPagesFile, JSON.stringify(statusPages, null, 2));
+      }
+    } catch (error) {
+      console.error('Failed to delete status page:', error);
+      throw error;
     }
   }
 }
