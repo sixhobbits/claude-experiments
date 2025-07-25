@@ -1,6 +1,6 @@
 {
   "startTime": "2025-07-24T23:26:00.771Z",
-  "totalVisitors": 37,
+  "totalVisitors": 42,
   "uniqueVisitors": [
     "49.12.1.106",
     "102.182.252.71",
@@ -22,18 +22,20 @@
     "102.135.241.130",
     "165.73.117.146",
     "::1",
-    "51.15.164.30"
+    "51.15.164.30",
+    "23.27.145.113"
   ],
   "pageViews": {
-    "landing": 35,
-    "api-health": 2
+    "landing": 39,
+    "api-health": 2,
+    "badge-view": 1
   },
   "referrers": {},
   "userAgents": {
-    "Other": 9,
-    "Safari": 8,
+    "Other": 11,
+    "Safari": 10,
     "Chrome": 18,
-    "Firefox": 2
+    "Firefox": 3
   },
   "campaigns": {
     "hackernews": {
@@ -53,14 +55,18 @@
       "conversions": 0
     },
     "direct": {
-      "visitors": 37,
-      "conversions": 5
+      "visitors": 40,
+      "conversions": 7
+    },
+    "other": {
+      "visitors": 2,
+      "conversions": 0
     }
   },
   "conversions": {
-    "demoLogins": 5,
+    "demoLogins": 7,
     "signupAttempts": 0,
     "feedbackSubmissions": 0
   },
-  "lastUpdated": "2025-07-25T21:12:19.211Z"
+  "lastUpdated": "2025-07-25T21:48:27.107Z"
 }
