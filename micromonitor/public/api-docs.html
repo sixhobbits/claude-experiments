@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroMonitor API Documentation</title>
+    <link rel="stylesheet" href="landing.css">
+    <style>
+        .api-docs {
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        
+        .api-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .api-header h1 {
+            color: #2c5aa0;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .api-section {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .endpoint {
+            background: #f8f9fa;
+            border-left: 4px solid #2c5aa0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .endpoint-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .method {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .response-example {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .integration-example {
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        
+        .integration-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: bold;
+        }
+        
+        .integration-content {
+            padding: 20px;
+        }
+        
+        .try-it-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        .try-it-btn:hover {
+            background: #1e3a8a;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>MicroMonitor</h2>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/api-docs.html" class="active">API Docs</a>
+                <a href="/login.html" class="nav-cta">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="api-docs">
+        <div class="api-header">
+            <h1>MicroMonitor API Documentation</h1>
+            <p>Integrate MicroMonitor into your applications and workflows</p>
+        </div>
+
+        <div class="api-section">
+            <h2>Overview</h2>
+            <p>The MicroMonitor API provides programmatic access to server monitoring data. All public endpoints are rate-limited to 60 requests per minute per IP address.</p>
+            <p>Base URL: <code>https://claude.dwyer.co.za/api/v1</code></p>
+        </div>
+
+        <div class="api-section">
+            <h2>Public Endpoints</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-title">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/status</span>
+                </div>
+                <p>Get current server status and metrics</p>
+                
+                <h4>Response Example:</h4>
+                <pre class="response-example">{
+  "status": "healthy",
+  "timestamp": "2025-07-25T18:00:00.000Z",
+  "current": {
+    "cpu": {
+      "usage": "23.45",
+      "load": [0.5, 0.6, 0.7]
+    },
+    "memory": {
+      "usage": "45.67",
+      "available": 4096,
+      "total": 8192
+    },
+    "disk": {
+      "usage": "67.89",
+      "available": 50000,
+      "total": 100000
+    },
+    "uptime": 1234567
+  },
+  "averages": {
+    "cpu": "25.30",
+    "memory": "48.20"
+  },
+  "links": {
+    "documentation": "https://claude.dwyer.co.za/api-docs",
+    "status_page": "https://claude.dwyer.co.za/status/demo"
+  }
+}</pre>
+                <button class="try-it-btn" onclick="tryEndpoint('/api/v1/status')">Try it</button>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-title">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/health</span>
+                </div>
+                <p>Simple health check endpoint</p>
+                
+                <h4>Response Example:</h4>
+                <pre class="response-example">{
+  "status": "ok",
+  "service": "MicroMonitor",
+  "version": "1.0.0",
+  "timestamp": "2025-07-25T18:00:00.000Z"
+}</pre>
+                <button class="try-it-btn" onclick="tryEndpoint('/api/v1/health')">Try it</button>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Integration Examples</h2>
+            
+            <div class="integration-example">
+                <div class="integration-header">Bash / cURL</div>
+                <div class="integration-content">
+                    <p>Monitor your server from the command line:</p>
+                    <pre class="code-block">#!/bin/bash
+# Check server status
+curl https://claude.dwyer.co.za/api/v1/status | jq '.status'
+
+# Get CPU usage
+curl https://claude.dwyer.co.za/api/v1/status | jq '.current.cpu.usage'
+
+# Health check
+curl https://claude.dwyer.co.za/api/v1/health</pre>
+                </div>
+            </div>
+
+            <div class="integration-example">
+                <div class="integration-header">Python</div>
+                <div class="integration-content">
+                    <p>Integrate MicroMonitor into your Python applications:</p>
+                    <pre class="code-block">import requests
+import json
+
+# Get server status
+response = requests.get('https://claude.dwyer.co.za/api/v1/status')
+data = response.json()
+
+if data['status'] == 'healthy':
+    print(f"Server is healthy! CPU: {data['current']['cpu']['usage']}%")
+else:
+    print(f"Warning: Server status is {data['status']}")
+
+# Monitor continuously
+import time
+
+while True:
+    response = requests.get('https://claude.dwyer.co.za/api/v1/status')
+    data = response.json()
+    print(f"CPU: {data['current']['cpu']['usage']}% | Memory: {data['current']['memory']['usage']}%")
+    time.sleep(30)  # Check every 30 seconds</pre>
+                </div>
+            </div>
+
+            <div class="integration-example">
+                <div class="integration-header">Node.js / JavaScript</div>
+                <div class="integration-content">
+                    <p>Use MicroMonitor in your Node.js applications:</p>
+                    <pre class="code-block">const axios = require('axios');
+
+// Async function to check server status
+async function checkServerStatus() {
+    try {
+        const response = await axios.get('https://claude.dwyer.co.za/api/v1/status');
+        const data = response.data;
+        
+        console.log(`Server Status: ${data.status}`);
+        console.log(`CPU Usage: ${data.current.cpu.usage}%`);
+        console.log(`Memory Usage: ${data.current.memory.usage}%`);
+        
+        // Alert if CPU is high
+        if (parseFloat(data.current.cpu.usage) > 80) {
+            console.warn('⚠️  High CPU usage detected!');
+        }
+    } catch (error) {
+        console.error('Failed to fetch server status:', error.message);
+    }
+}
+
+// Check every minute
+setInterval(checkServerStatus, 60000);</pre>
+                </div>
+            </div>
+
+            <div class="integration-example">
+                <div class="integration-header">GitHub Actions</div>
+                <div class="integration-content">
+                    <p>Monitor your server in CI/CD pipelines:</p>
+                    <pre class="code-block">name: Server Health Check
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # Every 30 minutes
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Server Status
+        run: |
+          STATUS=$(curl -s https://claude.dwyer.co.za/api/v1/status | jq -r '.status')
+          echo "Server status: $STATUS"
+          if [ "$STATUS" != "healthy" ]; then
+            echo "::error::Server is not healthy!"
+            exit 1
+          fi
+      
+      - name: Check Resource Usage
+        run: |
+          RESPONSE=$(curl -s https://claude.dwyer.co.za/api/v1/status)
+          CPU=$(echo $RESPONSE | jq -r '.current.cpu.usage')
+          MEMORY=$(echo $RESPONSE | jq -r '.current.memory.usage')
+          echo "CPU: $CPU% | Memory: $MEMORY%"</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Status Badges</h2>
+            <p>Display real-time status badges in your README or website:</p>
+            
+            <div class="endpoint">
+                <div class="endpoint-title">
+                    <span class="method">GET</span>
+                    <span class="endpoint-path">/api/badge/:statusId</span>
+                </div>
+                <p>Generate SVG status badge for embedding</p>
+                
+                <h4>Example:</h4>
+                <div style="margin: 20px 0;">
+                    <img src="/api/badge/1ewxbj3gc5j" alt="Status Badge">
+                </div>
+                
+                <h4>Markdown:</h4>
+                <pre class="code-block">![Server Status](https://claude.dwyer.co.za/api/badge/1ewxbj3gc5j)</pre>
+                
+                <h4>HTML:</h4>
+                <pre class="code-block">&lt;img src="https://claude.dwyer.co.za/api/badge/1ewxbj3gc5j" alt="Server Status"&gt;</pre>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h2>Rate Limits</h2>
+            <p>Public API endpoints are rate-limited to ensure fair usage:</p>
+            <ul>
+                <li>60 requests per minute per IP address</li>
+                <li>Badges are cached for 30 seconds</li>
+                <li>For higher limits, create an account and use API keys</li>
+            </ul>
+        </div>
+
+        <div class="api-section">
+            <h2>Need More?</h2>
+            <p>For authenticated access with higher rate limits and more features:</p>
+            <a href="/login.html" class="btn btn-primary">Create Account</a>
+        </div>
+    </div>
+
+    <script>
+        async function tryEndpoint(endpoint) {
+            try {
+                const response = await fetch(endpoint);
+                const data = await response.json();
+                alert(JSON.stringify(data, null, 2));
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>

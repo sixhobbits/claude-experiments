@@ -565,6 +565,80 @@ function generateBadgeSVG(label, status, color) {
   </svg>`;
 }
 
+// Public monitoring API endpoint for integrations
+app.get('/api/v1/status', async (req, res) => {
+  try {
+    // Track API usage
+    analytics.trackPageView(req, 'api-status');
+    
+    const currentMetrics = await metrics.getAllMetrics();
+    const history = await dataStore.getHistory(1); // Last hour
+    
+    // Calculate basic statistics
+    const avgCpu = history.length > 0 ? 
+      history.reduce((sum, m) => sum + m.cpu.usage, 0) / history.length : 
+      currentMetrics.cpu.usage;
+    
+    const avgMemory = history.length > 0 ?
+      history.reduce((sum, m) => sum + m.memory.usagePercent, 0) / history.length :
+      currentMetrics.memory.usagePercent;
+    
+    // Determine overall status
+    const status = currentMetrics.cpu.usage > 90 || currentMetrics.memory.usagePercent > 95 ? 
+      'warning' : 'healthy';
+    
+    const publicStatus = {
+      status: status,
+      timestamp: new Date().toISOString(),
+      current: {
+        cpu: {
+          usage: currentMetrics.cpu.usage.toFixed(2),
+          load: currentMetrics.cpu.loadAverage
+        },
+        memory: {
+          usage: currentMetrics.memory.usagePercent.toFixed(2),
+          available: currentMetrics.memory.available,
+          total: currentMetrics.memory.total
+        },
+        disk: {
+          usage: currentMetrics.disk.usagePercent.toFixed(2),
+          available: currentMetrics.disk.available,
+          total: currentMetrics.disk.total
+        },
+        uptime: currentMetrics.uptime
+      },
+      averages: {
+        cpu: avgCpu.toFixed(2),
+        memory: avgMemory.toFixed(2)
+      },
+      links: {
+        documentation: 'https://claude.dwyer.co.za/api-docs',
+        status_page: 'https://claude.dwyer.co.za/status/demo'
+      }
+    };
+    
+    res.json(publicStatus);
+  } catch (error) {
+    console.error('Public API error:', error);
+    res.status(500).json({ 
+      error: 'Internal server error',
+      status: 'error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Public health check endpoint
+app.get('/api/v1/health', (req, res) => {
+  analytics.trackPageView(req, 'api-health');
+  res.json({
+    status: 'ok',
+    service: 'MicroMonitor',
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Setup analytics routes
 analyticsAPI.setupRoutes(app, authMiddleware);
 
