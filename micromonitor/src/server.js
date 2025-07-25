@@ -37,8 +37,8 @@ app.get('/', (req, res) => {
 // Serve static files except the root index.html
 app.use(express.static(path.join(__dirname, '../public'), { index: false }));
 
-// Protected dashboard route
-app.get('/dashboard', authMiddleware(), (req, res) => {
+// Dashboard route (authentication is handled by the frontend)
+app.get('/dashboard', (req, res) => {
   try {
     analytics.trackPageView(req, 'dashboard');
   } catch (error) {
