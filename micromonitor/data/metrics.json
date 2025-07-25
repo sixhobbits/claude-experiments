@@ -2752,5 +2752,923 @@
       "seconds": 1154787.67,
       "formatted": "13d 8h 46m"
     }
+  },
+  {
+    "timestamp": "2025-07-25T21:56:58.777Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.07,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3299778560,
+      "used": 709844992,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637069312,
+      "available": 33652662272,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148100333,
+        "tx": 615537812
+      }
+    },
+    "uptime": {
+      "seconds": 1154791.62,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:56:59.826Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.07,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3299778560,
+      "used": 709844992,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637069312,
+      "available": 33652662272,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148100333,
+        "tx": 615537812
+      }
+    },
+    "uptime": {
+      "seconds": 1154792.67,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:03.780Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.06,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3299295232,
+      "used": 710328320,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637073408,
+      "available": 33652658176,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148106435,
+        "tx": 615540332
+      }
+    },
+    "uptime": {
+      "seconds": 1154796.63,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:04.832Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.06,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3299008512,
+      "used": 710615040,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637073408,
+      "available": 33652658176,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148107853,
+        "tx": 615541024
+      }
+    },
+    "uptime": {
+      "seconds": 1154797.68,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:08.787Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.06,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3297673216,
+      "used": 711950336,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637077504,
+      "available": 33652654080,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148113701,
+        "tx": 615544676
+      }
+    },
+    "uptime": {
+      "seconds": 1154801.63,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:09.836Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.06,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3297415168,
+      "used": 712208384,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637077504,
+      "available": 33652654080,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148114779,
+        "tx": 615545020
+      }
+    },
+    "uptime": {
+      "seconds": 1154802.68,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:13.790Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.05,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3298250752,
+      "used": 711372800,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637315072,
+      "available": 33652416512,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148133572,
+        "tx": 615749228
+      }
+    },
+    "uptime": {
+      "seconds": 1154806.63,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:14.838Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.05,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3298246656,
+      "used": 711376896,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637315072,
+      "available": 33652416512,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148133572,
+        "tx": 615749228
+      }
+    },
+    "uptime": {
+      "seconds": 1154807.68,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:18.798Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.05,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3297509376,
+      "used": 712114176,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637315072,
+      "available": 33652416512,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148138720,
+        "tx": 615751178
+      }
+    },
+    "uptime": {
+      "seconds": 1154811.64,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:19.842Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.05,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295928320,
+      "used": 713695232,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637315072,
+      "available": 33652416512,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148155291,
+        "tx": 615960319
+      }
+    },
+    "uptime": {
+      "seconds": 1154812.69,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:23.805Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.04,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295932416,
+      "used": 713691136,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637319168,
+      "available": 33652412416,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148158719,
+        "tx": 615961839
+      }
+    },
+    "uptime": {
+      "seconds": 1154816.65,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:24.848Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.04,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295641600,
+      "used": 713981952,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637319168,
+      "available": 33652412416,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148159960,
+        "tx": 615962257
+      }
+    },
+    "uptime": {
+      "seconds": 1154817.69,
+      "formatted": "13d 8h 46m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:28.800Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.04,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295080448,
+      "used": 714543104,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637323264,
+      "available": 33652408320,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148181441,
+        "tx": 616180411
+      }
+    },
+    "uptime": {
+      "seconds": 1154821.65,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:29.851Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.04,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295338496,
+      "used": 714285056,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637323264,
+      "available": 33652408320,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148183539,
+        "tx": 616180873
+      }
+    },
+    "uptime": {
+      "seconds": 1154822.7,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:33.803Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.04,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295862784,
+      "used": 713760768,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637323264,
+      "available": 33652408320,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148185568,
+        "tx": 616182343
+      }
+    },
+    "uptime": {
+      "seconds": 1154826.65,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:34.857Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.04,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295305728,
+      "used": 714317824,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637323264,
+      "available": 33652408320,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148187637,
+        "tx": 616183813
+      }
+    },
+    "uptime": {
+      "seconds": 1154827.7,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:38.808Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3294830592,
+      "used": 714792960,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637331456,
+      "available": 33652400128,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148204141,
+        "tx": 616404572
+      }
+    },
+    "uptime": {
+      "seconds": 1154831.65,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:39.862Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3294576640,
+      "used": 715046912,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637335552,
+      "available": 33652396032,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148206197,
+        "tx": 616405092
+      }
+    },
+    "uptime": {
+      "seconds": 1154832.71,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:43.812Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3296415744,
+      "used": 713207808,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637335552,
+      "available": 33652396032,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148224105,
+        "tx": 616627168
+      }
+    },
+    "uptime": {
+      "seconds": 1154836.66,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:44.869Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295576064,
+      "used": 714047488,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637335552,
+      "available": 33652396032,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148225695,
+        "tx": 616629322
+      }
+    },
+    "uptime": {
+      "seconds": 1154837.71,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:48.820Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295174656,
+      "used": 714448896,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637335552,
+      "available": 33652396032,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148230388,
+        "tx": 616631132
+      }
+    },
+    "uptime": {
+      "seconds": 1154841.67,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:49.877Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3295948800,
+      "used": 713674752,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637335552,
+      "available": 33652396032,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148231317,
+        "tx": 616631390
+      }
+    },
+    "uptime": {
+      "seconds": 1154842.72,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:53.817Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3296923648,
+      "used": 712699904,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637380608,
+      "available": 33652350976,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148248757,
+        "tx": 616860610
+      }
+    },
+    "uptime": {
+      "seconds": 1154846.66,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:54.882Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.03,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3296485376,
+      "used": 713138176,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637384704,
+      "available": 33652346880,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148250878,
+        "tx": 616860808
+      }
+    },
+    "uptime": {
+      "seconds": 1154847.73,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:58.818Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.02,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3293327360,
+      "used": 716296192,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637384704,
+      "available": 33652346880,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148265045,
+        "tx": 616953220
+      }
+    },
+    "uptime": {
+      "seconds": 1154851.66,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:57:59.881Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.02,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3294851072,
+      "used": 714772480,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637384704,
+      "available": 33652346880,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148271441,
+        "tx": 617093179
+      }
+    },
+    "uptime": {
+      "seconds": 1154852.73,
+      "formatted": "13d 8h 47m"
+    }
+  },
+  {
+    "timestamp": "2025-07-25T21:58:03.821Z",
+    "cpu": {
+      "usage": 1,
+      "loadAverage": {
+        "1m": 0.02,
+        "5m": 0.03,
+        "15m": 0
+      },
+      "cores": 2
+    },
+    "memory": {
+      "total": 4009623552,
+      "free": 3294601216,
+      "used": 715022336,
+      "percentage": 18
+    },
+    "disk": {
+      "total": 39973924864,
+      "used": 4637384704,
+      "available": 33652346880,
+      "percentage": 13
+    },
+    "network": {
+      "eth0": {
+        "rx": 1148298275,
+        "tx": 617125405
+      }
+    },
+    "uptime": {
+      "seconds": 1154856.67,
+      "formatted": "13d 8h 47m"
+    }
   }
 ]

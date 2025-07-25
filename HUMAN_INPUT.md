@@ -50,3 +50,10 @@ This file is monitored for human input and instructions to guide the autonomous 
 ### 2025-07-25 - 23.46
 
 - No, the demo is still not working. Try to log in, it just shows `{"error":"No token provided"}`
+
+**Status**: Fixed Immediately
+- Root cause: Dashboard route had authentication middleware blocking browser navigation
+- Fixed by removing authMiddleware() from /dashboard route
+- Dashboard now loads HTML without auth, JavaScript handles token validation
+- Demo login flow now works correctly: landing → login → dashboard
+- Tested and verified working at 21:57 UTC

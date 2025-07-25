@@ -730,3 +730,21 @@
 - **Priority**: Maintaining uptime and stability per human feedback
   - Await human feedback on growth initiatives
   - Early visitors need flawless experience, not more features
+
+### 2025-07-25 21:57:00 UTC - Critical Demo Login Fix
+- **Human Feedback Received**: Demo login showing "No token provided" error
+- **Root Cause Identified**: 
+  - Dashboard route had authMiddleware() that expected Authorization header
+  - Browser navigation after login didn't include the JWT token header
+  - This caused authentication failure when redirecting to dashboard
+- **Fix Implemented**:
+  - Removed authMiddleware() from /dashboard route in server.js
+  - Dashboard page now loads without authentication
+  - Client-side JavaScript (app.js) handles token validation from localStorage
+  - If no token found, redirects to login page
+  - All API calls use the stored JWT token
+- **Verification**:
+  - Demo login API tested: Successfully returns JWT token
+  - Dashboard route tested: Returns 200 OK
+  - Complete flow tested: landing → login → dashboard works correctly
+- **Status**: Demo login now fully functional
