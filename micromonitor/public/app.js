@@ -14,6 +14,16 @@ const authHeaders = {
     'Authorization': `Bearer ${authToken}`
 };
 
+// Show feedback prompt for demo users after 30 seconds
+if (currentUser === 'demo' && !localStorage.getItem('feedbackPromptShown')) {
+    setTimeout(() => {
+        if (confirm('How is your experience with MicroMonitor so far? Would you like to share quick feedback?')) {
+            window.open('/feedback.html', '_blank');
+        }
+        localStorage.setItem('feedbackPromptShown', 'true');
+    }, 30000); // 30 seconds
+}
+
 // Initialize charts
 const cpuChartCtx = document.getElementById('cpu-chart').getContext('2d');
 const memoryChartCtx = document.getElementById('memory-chart').getContext('2d');

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MicroMonitor - Quick Feedback</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .feedback-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+        
+        .quick-options {
+            margin-bottom: 2rem;
+        }
+        
+        .quick-options h3 {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .option-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .option-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .option-btn:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+        
+        .option-btn.selected {
+            background-color: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1.5rem;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .skip-btn {
+            background-color: #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .skip-btn:hover {
+            background-color: #bdc3c7;
+        }
+        
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        .success-message {
+            background-color: #2ecc71;
+            color: white;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            display: none;
+            margin-bottom: 1rem;
+        }
+        
+        .char-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-top: -1.2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <h1>Quick Feedback</h1>
+        <p class="subtitle">Help us make MicroMonitor better! (30 seconds)</p>
+        
+        <div class="success-message" id="successMessage">
+            ✅ Thank you for your feedback! It helps us improve MicroMonitor.
+        </div>
+        
+        <form id="feedbackForm">
+            <div class="quick-options">
+                <h3>What brought you to MicroMonitor?</h3>
+                <div class="option-buttons" id="reasonButtons">
+                    <button type="button" class="option-btn" data-value="monitoring-need">Need monitoring solution</button>
+                    <button type="button" class="option-btn" data-value="ai-built">Curious about AI-built app</button>
+                    <button type="button" class="option-btn" data-value="comparison">Comparing tools</button>
+                    <button type="button" class="option-btn" data-value="other">Other</button>
+                </div>
+            </div>
+            
+            <div class="quick-options">
+                <h3>How would you rate your experience?</h3>
+                <div class="option-buttons" id="ratingButtons">
+                    <button type="button" class="option-btn" data-value="excellent">😍 Excellent</button>
+                    <button type="button" class="option-btn" data-value="good">😊 Good</button>
+                    <button type="button" class="option-btn" data-value="okay">😐 Okay</button>
+                    <button type="button" class="option-btn" data-value="poor">😕 Needs work</button>
+                </div>
+            </div>
+            
+            <textarea 
+                id="feedbackText" 
+                placeholder="Any specific feedback? Features you'd like? Issues you encountered? (optional)"
+                maxlength="500"
+            ></textarea>
+            <div class="char-count"><span id="charCount">0</span>/500</div>
+            
+            <div class="button-group">
+                <button type="submit" class="submit-btn" id="submitBtn">Send Feedback</button>
+                <button type="button" class="skip-btn" onclick="window.close()">Skip</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let selectedReason = null;
+        let selectedRating = null;
+        
+        // Handle option button clicks
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const parent = e.target.parentElement;
+                parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                e.target.classList.add('selected');
+                
+                if (parent.id === 'reasonButtons') {
+                    selectedReason = e.target.dataset.value;
+                } else if (parent.id === 'ratingButtons') {
+                    selectedRating = e.target.dataset.value;
+                }
+            });
+        });
+        
+        // Character count
+        const feedbackText = document.getElementById('feedbackText');
+        const charCount = document.getElementById('charCount');
+        feedbackText.addEventListener('input', () => {
+            charCount.textContent = feedbackText.value.length;
+        });
+        
+        // Form submission
+        document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            const feedback = {
+                reason: selectedReason,
+                rating: selectedRating,
+                comments: feedbackText.value,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            };
+            
+            try {
+                const response = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(feedback)
+                });
+                
+                if (response.ok) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('feedbackForm').style.display = 'none';
+                    setTimeout(() => {
+                        window.close();
+                    }, 2000);
+                } else {
+                    alert('Failed to submit feedback. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Feedback';
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Feedback';
+            }
+        });
+    </script>
+</body>
+</html>

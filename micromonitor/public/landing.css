@@ -137,6 +137,57 @@ body {
 .btn-large {
     padding: 18px 40px;
     font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-main-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.btn-sub-text {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+.social-proof {
+    margin: 20px 0;
+    animation: fadeIn 0.6s ease-in;
+}
+
+.visitor-count {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.visitor-count strong {
+    color: #4ade80;
+    font-weight: 700;
+}
+
+.demo-hint {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Hero Dashboard Preview */
