@@ -26,7 +26,11 @@ app.use(apiKeyMiddleware());
 
 // Serve landing page at root
 app.get('/', (req, res) => {
-  analytics.trackPageView(req, 'landing');
+  try {
+    analytics.trackPageView(req, 'landing');
+  } catch (error) {
+    console.error('Analytics error:', error);
+  }
   res.sendFile(path.join(__dirname, '../public/landing.html'));
 });
 
@@ -35,7 +39,11 @@ app.use(express.static(path.join(__dirname, '../public'), { index: false }));
 
 // Protected dashboard route
 app.get('/dashboard', authMiddleware(), (req, res) => {
-  analytics.trackPageView(req, 'dashboard');
+  try {
+    analytics.trackPageView(req, 'dashboard');
+  } catch (error) {
+    console.error('Analytics error:', error);
+  }
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
@@ -646,6 +654,34 @@ app.get('/api/v1/health', (req, res) => {
 
 // Setup analytics routes
 analyticsAPI.setupRoutes(app, authMiddleware);
+
+// Global error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.stack);
+  res.status(500).json({ 
+    error: 'Internal server error',
+    message: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+  });
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  console.error(err.stack);
+  // Log to file for later analysis
+  const fs = require('fs');
+  const errorLog = `[${new Date().toISOString()}] Uncaught Exception: ${err.message}\n${err.stack}\n\n`;
+  fs.appendFileSync(path.join(__dirname, '../error.log'), errorLog);
+});
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Log to file for later analysis
+  const fs = require('fs');
+  const errorLog = `[${new Date().toISOString()}] Unhandled Rejection: ${reason}\n\n`;
+  fs.appendFileSync(path.join(__dirname, '../error.log'), errorLog);
+});
 
 // Initialize default admin user and alert manager
 initializeDefaultAdmin();

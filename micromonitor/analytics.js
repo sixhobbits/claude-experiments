@@ -57,29 +57,56 @@ function saveAnalytics(analytics) {
 
 // Track page view
 function trackPageView(req, page) {
-    const analytics = loadAnalytics();
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const userAgent = req.headers['user-agent'] || 'Unknown';
-    const referrer = req.headers['referer'] || 'direct';
-    
-    // Track unique visitor
-    analytics.uniqueVisitors.add(ip);
-    analytics.totalVisitors++;
-    
-    // Track page views
-    analytics.pageViews[page] = (analytics.pageViews[page] || 0) + 1;
-    
-    // Track referrer
-    const campaign = detectCampaign(referrer, req.query);
-    if (campaign) {
-        analytics.campaigns[campaign].visitors++;
+    try {
+        const analytics = loadAnalytics();
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        const userAgent = req.headers['user-agent'] || 'Unknown';
+        const referrer = req.headers['referer'] || 'direct';
+        
+        // Initialize data structures if they don't exist
+        if (!analytics.uniqueVisitors) {
+            analytics.uniqueVisitors = new Set();
+        }
+        if (!analytics.pageViews) {
+            analytics.pageViews = {};
+        }
+        if (!analytics.userAgents) {
+            analytics.userAgents = {};
+        }
+        if (!analytics.campaigns) {
+            analytics.campaigns = {
+                hackernews: { visitors: 0, conversions: 0 },
+                reddit: { visitors: 0, conversions: 0 },
+                twitter: { visitors: 0, conversions: 0 },
+                linkedin: { visitors: 0, conversions: 0 },
+                direct: { visitors: 0, conversions: 0 }
+            };
+        }
+        
+        // Track unique visitor
+        analytics.uniqueVisitors.add(ip);
+        analytics.totalVisitors = (analytics.totalVisitors || 0) + 1;
+        
+        // Track page views
+        analytics.pageViews[page] = (analytics.pageViews[page] || 0) + 1;
+        
+        // Track referrer
+        const campaign = detectCampaign(referrer, req.query);
+        if (campaign && analytics.campaigns) {
+            if (!analytics.campaigns[campaign]) {
+                analytics.campaigns[campaign] = { visitors: 0, conversions: 0 };
+            }
+            analytics.campaigns[campaign].visitors++;
+        }
+        
+        // Track user agent
+        const browserType = detectBrowser(userAgent);
+        analytics.userAgents[browserType] = (analytics.userAgents[browserType] || 0) + 1;
+        
+        saveAnalytics(analytics);
+    } catch (error) {
+        console.error('Error tracking page view:', error);
     }
-    
-    // Track user agent
-    const browserType = detectBrowser(userAgent);
-    analytics.userAgents[browserType] = (analytics.userAgents[browserType] || 0) + 1;
-    
-    saveAnalytics(analytics);
 }
 
 // Detect campaign source
@@ -104,17 +131,45 @@ function detectBrowser(userAgent) {
 
 // Track conversion event
 function trackConversion(type, campaign = 'direct') {
-    const analytics = loadAnalytics();
-    
-    if (analytics.conversions[type] !== undefined) {
-        analytics.conversions[type]++;
+    try {
+        const analytics = loadAnalytics();
+        
+        // Initialize conversions if not exists
+        if (!analytics.conversions) {
+            analytics.conversions = {
+                demoLogins: 0,
+                signupAttempts: 0,
+                feedbackSubmissions: 0
+            };
+        }
+        
+        if (analytics.conversions[type] !== undefined) {
+            analytics.conversions[type]++;
+        }
+        
+        // Initialize campaigns if not exists
+        if (!analytics.campaigns) {
+            analytics.campaigns = {
+                hackernews: { visitors: 0, conversions: 0 },
+                reddit: { visitors: 0, conversions: 0 },
+                twitter: { visitors: 0, conversions: 0 },
+                linkedin: { visitors: 0, conversions: 0 },
+                direct: { visitors: 0, conversions: 0 }
+            };
+        }
+        
+        if (!analytics.campaigns[campaign]) {
+            analytics.campaigns[campaign] = { visitors: 0, conversions: 0 };
+        }
+        
+        if (analytics.campaigns[campaign]) {
+            analytics.campaigns[campaign].conversions++;
+        }
+        
+        saveAnalytics(analytics);
+    } catch (error) {
+        console.error('Error tracking conversion:', error);
     }
-    
-    if (analytics.campaigns[campaign]) {
-        analytics.campaigns[campaign].conversions++;
-    }
-    
-    saveAnalytics(analytics);
 }
 
 // Get analytics summary
