@@ -14,6 +14,47 @@ const authHeaders = {
     'Authorization': `Bearer ${authToken}`
 };
 
+// Show demo banner for demo users
+if (currentUser === 'demo') {
+    const demoBanner = document.getElementById('demo-banner');
+    if (demoBanner && !localStorage.getItem('demoBannerDismissed')) {
+        demoBanner.style.display = 'block';
+    }
+}
+
+// Banner and modal functions
+function dismissBanner() {
+    document.getElementById('demo-banner').style.display = 'none';
+    localStorage.setItem('demoBannerDismissed', 'true');
+}
+
+function showUpgradeModal() {
+    document.getElementById('upgrade-modal').style.display = 'block';
+    // Track conversion attempt
+    fetch('/api/analytics/track', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...authHeaders
+        },
+        body: JSON.stringify({
+            event: 'upgrade_modal_opened'
+        })
+    });
+}
+
+function closeUpgradeModal() {
+    document.getElementById('upgrade-modal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('upgrade-modal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+}
+
 // Show feedback prompt for demo users after 30 seconds
 if (currentUser === 'demo' && !localStorage.getItem('feedbackPromptShown')) {
     setTimeout(() => {

@@ -1,6 +1,6 @@
 {
   "startTime": "2025-07-24T23:26:00.771Z",
-  "totalVisitors": 193,
+  "totalVisitors": 202,
   "uniqueVisitors": [
     "49.12.1.106",
     "102.182.252.71",
@@ -113,25 +113,29 @@
     "43.157.172.39",
     "43.135.115.233",
     "43.159.152.4",
-    "43.155.157.239"
+    "43.155.157.239",
+    "34.34.132.221",
+    "88.26.12.192",
+    "49.43.99.60",
+    "43.165.65.75"
   ],
   "pageViews": {
-    "landing": 137,
+    "landing": 141,
     "api-health": 2,
-    "badge-view": 39,
-    "dashboard": 10,
-    "public-status": 5
+    "badge-view": 42,
+    "dashboard": 11,
+    "public-status": 6
   },
   "referrers": {},
   "userAgents": {
-    "Other": 38,
-    "Safari": 39,
-    "Chrome": 98,
+    "Other": 41,
+    "Safari": 40,
+    "Chrome": 103,
     "Firefox": 18
   },
   "campaigns": {
     "hackernews": {
-      "visitors": 2,
+      "visitors": 3,
       "conversions": 0
     },
     "reddit": {
@@ -147,18 +151,18 @@
       "conversions": 0
     },
     "direct": {
-      "visitors": 100,
-      "conversions": 19
+      "visitors": 103,
+      "conversions": 20
     },
     "other": {
-      "visitors": 91,
+      "visitors": 96,
       "conversions": 0
     }
   },
   "conversions": {
-    "demoLogins": 19,
+    "demoLogins": 20,
     "signupAttempts": 0,
     "feedbackSubmissions": 0
   },
-  "lastUpdated": "2025-07-26T10:15:03.479Z"
+  "lastUpdated": "2025-07-26T13:10:28.877Z"
 }

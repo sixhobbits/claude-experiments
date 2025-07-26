@@ -1105,3 +1105,164 @@ footer {
     font-size: 12px;
     font-weight: normal;
 }
+
+/* Demo banner styles */
+.demo-banner {
+    background: #f39c12;
+    color: white;
+    padding: 12px 20px;
+    margin: 0 0 20px 0;
+    border-radius: 5px;
+    animation: slideDown 0.3s ease;
+}
+
+.demo-banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.demo-banner-text {
+    font-size: 14px;
+}
+
+.demo-banner-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.upgrade-btn {
+    background: white;
+    color: #f39c12;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.upgrade-btn:hover {
+    background: #fff3cd;
+    transform: translateY(-1px);
+}
+
+.dismiss-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: opacity 0.2s;
+}
+
+.dismiss-btn:hover {
+    opacity: 0.7;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+.modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 20px;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+.feature-comparison {
+    margin: 30px 0;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.comparison-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.comparison-table td:nth-child(2) {
+    color: #e74c3c;
+}
+
+.comparison-table td:nth-child(3) {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.upgrade-cta {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.upgrade-action-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 15px 0;
+    transition: all 0.3s;
+}
+
+.upgrade-action-btn:hover {
+    background: #219a52;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+}
+
+.upgrade-note {
+    color: #7f8c8d;
+    font-size: 14px;
+}

@@ -29,6 +29,14 @@
 
 ## In Progress
 
+### 2025-07-26 - Conversion Optimization Sprint
+- [ ] Analyze demo-to-signup conversion gap (20 demos, 0 signups)
+- [ ] Add "Upgrade to Full Account" button in demo dashboard
+- [ ] Create feature comparison table showing demo limitations
+- [ ] Add time limit notification for demo accounts
+- [ ] Implement exit intent popup for demo users
+- [ ] Add testimonials or social proof to landing page
+
 ## Backlog
 - [x] Configure domain and SSL - COMPLETED (https://claude.dwyer.co.za)
 - [x] Create user documentation - COMPLETED

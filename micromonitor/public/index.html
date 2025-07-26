@@ -20,6 +20,19 @@
             </div>
         </header>
         
+        <!-- Demo upgrade banner -->
+        <div id="demo-banner" class="demo-banner" style="display: none;">
+            <div class="demo-banner-content">
+                <div class="demo-banner-text">
+                    <strong>You're using a demo account</strong> - Limited to 1 hour of data retention
+                </div>
+                <div class="demo-banner-actions">
+                    <button onclick="showUpgradeModal()" class="upgrade-btn">Upgrade to Full Account</button>
+                    <button onclick="dismissBanner()" class="dismiss-btn">×</button>
+                </div>
+            </div>
+        </div>
+        
         <div class="metrics-grid">
             <div class="metric-card">
                 <h3>CPU Usage</h3>
@@ -379,6 +392,60 @@
             </form>
             
             <div id="feedback-result"></div>
+        </div>
+    </div>
+    
+    <!-- Upgrade Modal -->
+    <div id="upgrade-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeUpgradeModal()">&times;</span>
+            <h2>Upgrade to Full Account</h2>
+            
+            <div class="feature-comparison">
+                <h3>Why Upgrade?</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Demo Account</th>
+                            <th>Full Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Data Retention</td>
+                            <td>❌ 1 hour</td>
+                            <td>✅ 30 days</td>
+                        </tr>
+                        <tr>
+                            <td>Email Alerts</td>
+                            <td>❌ Disabled</td>
+                            <td>✅ Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>API Access</td>
+                            <td>❌ No</td>
+                            <td>✅ Full Access</td>
+                        </tr>
+                        <tr>
+                            <td>Custom Thresholds</td>
+                            <td>❌ No</td>
+                            <td>✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Export Data</td>
+                            <td>⚠️ Limited</td>
+                            <td>✅ Unlimited</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="upgrade-cta">
+                <p><strong>Start monitoring your servers professionally!</strong></p>
+                <button onclick="window.location.href='/register.html'" class="upgrade-action-btn">Create Full Account Now</button>
+                <p class="upgrade-note">Free for 14 days • No credit card required</p>
+            </div>
         </div>
     </div>
     
