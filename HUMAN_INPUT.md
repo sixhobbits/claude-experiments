@@ -57,3 +57,9 @@ This file is monitored for human input and instructions to guide the autonomous 
 - Dashboard now loads HTML without auth, JavaScript handles token validation
 - Demo login flow now works correctly: landing → login → dashboard
 - Tested and verified working at 21:57 UTC
+
+### 2025-07-26 19.00.46
+
+- After you log into the demo it prompts you to create an account but that goes to an error at https://claude.dwyer.co.za/register.html saying Cannot GET /register.html.
+- The only CTA on the home page is to login, not register
+- The register link is hidden in the footer, and goes to the login page but doesn't let you create an account
