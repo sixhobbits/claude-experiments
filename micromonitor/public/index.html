@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MicroMonitor - System Monitoring Dashboard</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="onboarding.css">
 </head>
 <body>
     <div class="container">
@@ -20,6 +21,36 @@
             </div>
         </header>
         
+        <!-- Welcome Message for Demo Users -->
+        <div id="welcome-message" class="welcome-message" style="display: none;">
+            <div class="welcome-content">
+                <h3>Welcome to MicroMonitor! 👋</h3>
+                <p>Here's a quick tour of the key features:</p>
+                <div class="welcome-features">
+                    <div class="welcome-feature">
+                        <span class="feature-icon">📊</span>
+                        <span><strong>Real-time Monitoring</strong> - Live CPU, memory, and disk usage updates</span>
+                    </div>
+                    <div class="welcome-feature">
+                        <span class="feature-icon">🔔</span>
+                        <span><strong>Smart Alerts</strong> - Get notified when thresholds are exceeded</span>
+                    </div>
+                    <div class="welcome-feature">
+                        <span class="feature-icon">📥</span>
+                        <span><strong>Data Export</strong> - Download your metrics as CSV or PDF</span>
+                    </div>
+                    <div class="welcome-feature">
+                        <span class="feature-icon">🔗</span>
+                        <span><strong>API & Webhooks</strong> - Integrate with your existing tools</span>
+                    </div>
+                </div>
+                <div class="welcome-actions">
+                    <button onclick="startOnboarding()" class="start-tour-btn">Take a Quick Tour</button>
+                    <button onclick="dismissWelcome()" class="skip-tour-btn">Skip for Now</button>
+                </div>
+            </div>
+        </div>
+        
         <!-- Demo upgrade banner -->
         <div id="demo-banner" class="demo-banner" style="display: none;">
             <div class="demo-banner-content">
@@ -33,7 +64,7 @@
             </div>
         </div>
         
-        <div class="metrics-grid">
+        <div class="metrics-grid" data-onboarding-step="1" data-onboarding-title="Real-time Metrics" data-onboarding-text="Monitor your system's CPU, memory, disk usage, and uptime in real-time. These cards update automatically every few seconds.">
             <div class="metric-card">
                 <h3>CPU Usage</h3>
                 <div class="metric-value" id="cpu-usage">--</div>
@@ -71,7 +102,7 @@
             </div>
         </div>
         
-        <div class="export-section">
+        <div class="export-section" data-onboarding-step="2" data-onboarding-title="Export Your Data" data-onboarding-text="Download your monitoring data as CSV for analysis or PDF for reports. Perfect for keeping records or sharing with your team.">
             <h3>Data Export</h3>
             <div class="export-controls">
                 <label>Export last: 
@@ -144,7 +175,7 @@
             </div>
         </div>
         
-        <div class="alerts-section">
+        <div class="alerts-section" data-onboarding-step="3" data-onboarding-title="Configure Alerts" data-onboarding-text="Set custom thresholds for CPU, memory, and disk usage. Get notified via email when your system needs attention.">
             <h3>Alert Configuration</h3>
             <div class="alert-controls">
                 <div class="alert-status">
@@ -174,7 +205,7 @@
             </div>
         </div>
         
-        <div class="api-keys-section">
+        <div class="api-keys-section" data-onboarding-step="4" data-onboarding-title="API Access" data-onboarding-text="Generate API keys to integrate MicroMonitor with your scripts and applications. Full programmatic access to all your monitoring data.">
             <h3>API Keys</h3>
             <div class="api-keys-controls">
                 <button id="manage-api-keys-btn" class="config-btn">Manage API Keys</button>
@@ -451,5 +482,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
+    <script src="onboarding.js"></script>
 </body>
 </html>
