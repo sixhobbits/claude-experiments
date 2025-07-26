@@ -1104,3 +1104,67 @@ document.getElementById('status-page-form').onsubmit = async (e) => {
         alert('Failed to create status page');
     }
 };
+
+// Exit Intent Popup for Demo Users
+if (isDemo) {
+    let exitIntentShown = localStorage.getItem('exitIntentShown');
+    let mouseY = 0;
+    let topOfPage = 0;
+    
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+        mouseY = e.clientY;
+        topOfPage = window.pageYOffset || document.documentElement.scrollTop;
+    });
+    
+    // Detect exit intent
+    document.addEventListener('mouseout', (e) => {
+        // Only trigger if:
+        // 1. Moving to the top of the viewport (likely going to tabs/close)
+        // 2. Not already shown in this session
+        // 3. User has been on page for at least 10 seconds
+        if (mouseY < 10 && 
+            e.clientY < 0 && 
+            !exitIntentShown && 
+            sessionStorage.getItem('sessionStartTime') &&
+            Date.now() - parseInt(sessionStorage.getItem('sessionStartTime')) > 10000) {
+            
+            showExitIntentPopup();
+            localStorage.setItem('exitIntentShown', 'true');
+            exitIntentShown = true;
+        }
+    });
+    
+    // Set session start time if not already set
+    if (!sessionStorage.getItem('sessionStartTime')) {
+        sessionStorage.setItem('sessionStartTime', Date.now().toString());
+    }
+    
+    function showExitIntentPopup() {
+        // Check if upgrade modal already exists
+        const existingModal = document.getElementById('upgrade-modal');
+        if (existingModal) {
+            existingModal.style.display = 'block';
+            // Track the exit intent trigger
+            if (window.analytics) {
+                window.analytics.track('exit-intent-shown');
+            }
+        } else {
+            // If modal doesn't exist, show the demo banner
+            const demoBanner = document.getElementById('demo-banner');
+            if (demoBanner) {
+                demoBanner.style.display = 'block';
+                localStorage.removeItem('demoBannerDismissed');
+            }
+        }
+    }
+    
+    // Also show exit intent on back button
+    window.addEventListener('popstate', () => {
+        if (!exitIntentShown && isDemo) {
+            showExitIntentPopup();
+            localStorage.setItem('exitIntentShown', 'true');
+            exitIntentShown = true;
+        }
+    });
+}

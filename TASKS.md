@@ -33,8 +33,8 @@
 - [x] Analyze demo-to-signup conversion gap (20 demos, 0 signups) - COMPLETED
 - [x] Add "Upgrade to Full Account" button in demo dashboard - COMPLETED
 - [x] Create feature comparison table showing demo limitations - COMPLETED
-- [ ] Add time limit notification for demo accounts
-- [ ] Implement exit intent popup for demo users
+- [x] Add time limit notification for demo accounts - COMPLETED
+- [x] Implement exit intent popup for demo users - COMPLETED
 - [ ] Add testimonials or social proof to landing page
 
 ## Backlog
