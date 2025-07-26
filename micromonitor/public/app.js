@@ -20,6 +20,23 @@ if (currentUser === 'demo') {
     if (demoBanner && !localStorage.getItem('demoBannerDismissed')) {
         demoBanner.style.display = 'block';
     }
+    
+    // Show time limit notification
+    const demoStartTime = localStorage.getItem('demoStartTime');
+    if (!demoStartTime) {
+        localStorage.setItem('demoStartTime', Date.now());
+    } else {
+        const elapsedMinutes = Math.floor((Date.now() - parseInt(demoStartTime)) / 60000);
+        const remainingMinutes = Math.max(0, 60 - elapsedMinutes);
+        
+        if (remainingMinutes <= 10 && !localStorage.getItem('timeLimitWarningShown')) {
+            setTimeout(() => {
+                alert(`⏰ Demo Time Limit Notice\n\nYou have ${remainingMinutes} minutes remaining in your demo session.\n\nDemo data is retained for only 1 hour. Create a full account to keep your monitoring data permanently!`);
+                localStorage.setItem('timeLimitWarningShown', 'true');
+                showUpgradeModal();
+            }, 2000);
+        }
+    }
 }
 
 // Banner and modal functions
