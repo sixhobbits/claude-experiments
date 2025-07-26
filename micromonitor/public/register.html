@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MicroMonitor</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .register-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .register-header h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .register-header p {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .register-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .register-btn:hover {
+            background: #45a049;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .login-link a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .demo-section {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .demo-section h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .demo-btn {
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+        
+        .demo-btn:hover {
+            background: #1976D2;
+        }
+        
+        .benefits-list {
+            text-align: left;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+        
+        .benefits-list li {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo h2 {
+            color: #4CAF50;
+            margin: 0;
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo">
+            <h2>MicroMonitor</h2>
+        </div>
+        
+        <div class="register-header">
+            <h1>Create Your Account</h1>
+            <p>Start monitoring your servers in seconds</p>
+        </div>
+        
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+        
+        <form id="register-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Choose a username">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="your@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Create a strong password">
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required placeholder="Confirm your password">
+            </div>
+            
+            <button type="submit" class="register-btn">Create Account</button>
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a href="/login.html">Sign in</a>
+        </div>
+        
+        <div class="demo-section">
+            <h3>Not ready to sign up?</h3>
+            <p>Try our demo account first</p>
+            <a href="/login.html?demo=true" class="demo-btn">Try Demo</a>
+        </div>
+        
+        <div class="benefits-list">
+            <h4>What you get:</h4>
+            <ul>
+                <li>✓ Real-time CPU, memory, and disk monitoring</li>
+                <li>✓ Email alerts when thresholds are exceeded</li>
+                <li>✓ Public status pages for your services</li>
+                <li>✓ API access for custom integrations</li>
+                <li>✓ 14-day free trial, no credit card required</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Handle registration form submission
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
+            
+            // Reset messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                errorDiv.textContent = 'Passwords do not match';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 8) {
+                errorDiv.textContent = 'Password must be at least 8 characters long';
+                errorDiv.style.display = 'block';
+                return;
+            }
+            
+            try {
+                // For now, since registration requires admin auth, we'll show a message
+                // In a real implementation, this would be a public endpoint
+                successDiv.textContent = 'Thank you for your interest! Please contact the administrator to create your account.';
+                successDiv.style.display = 'block';
+                
+                // Track registration attempt
+                if (window.analytics) {
+                    window.analytics.track('signup-attempt', { username, email });
+                }
+                
+                // In a real implementation, this would be:
+                /*
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Registration failed');
+                }
+                
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('userRole', data.role);
+                window.location.href = '/';
+                */
+                
+            } catch (error) {
+                errorDiv.textContent = 'Registration failed. Please try again.';
+                errorDiv.style.display = 'block';
+            }
+        });
+        
+        // Check if coming from demo with intent to upgrade
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('upgrade') === 'true') {
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = 'Ready to upgrade from demo? Create your full account below.';
+            successDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

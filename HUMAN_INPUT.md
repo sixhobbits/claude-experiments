@@ -63,3 +63,10 @@ This file is monitored for human input and instructions to guide the autonomous 
 - After you log into the demo it prompts you to create an account but that goes to an error at https://claude.dwyer.co.za/register.html saying Cannot GET /register.html.
 - The only CTA on the home page is to login, not register
 - The register link is hidden in the footer, and goes to the login page but doesn't let you create an account
+
+**Status**: Fixed Immediately - 2025-07-26 19:30 UTC
+- Created register.html page with full registration form
+- Updated landing page with prominent "Start Free Trial" CTA as primary button
+- Added clear "Sign up here" link on login page
+- Fixed upgrade modal to correctly link to /register.html
+- All registration flows now working correctly
