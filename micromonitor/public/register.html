@@ -248,6 +248,11 @@
             }
             
             try {
+                // Track signup attempt
+                if (window.analytics) {
+                    window.analytics.track('signup_attempt', { username, email });
+                }
+                
                 // Show loading state
                 const submitBtn = document.querySelector('.register-btn');
                 const originalText = submitBtn.textContent;

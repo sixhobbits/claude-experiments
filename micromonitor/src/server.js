@@ -492,6 +492,32 @@ app.get('/api/analytics/summary', authMiddleware('admin'), (req, res) => {
   }
 });
 
+// Analytics tracking endpoint
+app.post('/api/analytics/track', async (req, res) => {
+  try {
+    const { event, data } = req.body;
+    
+    // Map frontend event names to analytics system names
+    const eventMap = {
+      'signup_attempt': 'signupAttempts',
+      'signup-complete': 'signups',
+      'demo-login': 'demoLogins',
+      'feedback-submission': 'feedbackSubmissions'
+    };
+    
+    if (eventMap[event]) {
+      analytics.trackConversion(eventMap[event], data?.campaign || 'direct');
+    } else if (event === 'landing_page_view' || event === 'register-page-view') {
+      analytics.trackPageView(req, data?.page || event);
+    }
+    
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Analytics tracking error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Public status page endpoints
 app.get('/status/:statusId', (req, res) => {
   analytics.trackPageView(req, 'public-status');
