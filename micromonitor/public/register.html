@@ -305,6 +305,29 @@
             successDiv.textContent = 'Ready to upgrade from demo? Create your full account below.';
             successDiv.style.display = 'block';
         }
+        
+        // Analytics tracking
+        if (window.analytics && window.analytics.track) {
+            window.analytics.track('register-page-view', {
+                referrer: document.referrer,
+                campaign: urlParams.get('ref') || 'direct',
+                upgrade: urlParams.get('upgrade') === 'true'
+            });
+        }
+    </script>
+    
+    <!-- Analytics implementation -->
+    <script>
+    // Simple analytics implementation for tracking
+    window.analytics = {
+        track: function(event, data) {
+            fetch('/api/analytics/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event, data, timestamp: new Date().toISOString() })
+            }).catch(err => console.error('Analytics error:', err));
+        }
+    };
     </script>
 </body>
 </html>
