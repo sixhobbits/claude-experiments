@@ -134,6 +134,40 @@ body {
     color: #667eea;
 }
 
+.btn-demo {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    font-size: 1.1rem;
+    padding: 18px 36px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-demo:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(255, 107, 107, 0.5);
+}
+
+.btn-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .9;
+        transform: scale(1.02);
+    }
+}
+
 .btn-large {
     padding: 18px 40px;
     font-size: 1.1rem;
@@ -174,9 +208,18 @@ body {
 
 .demo-hint {
     margin-top: 20px;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.95);
     animation: fadeIn 0.8s ease-in;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-block;
+}
+
+.demo-hint strong {
+    color: #fbbf24;
+    font-weight: 700;
 }
 
 @keyframes fadeIn {

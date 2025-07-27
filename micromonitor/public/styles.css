@@ -1146,6 +1146,19 @@ footer {
     background: #fff3cd;
     transform: translateY(-1px);
 }
+.upgrade-btn.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: .95;
+        transform: scale(1.05);
+    }
+}
 
 .dismiss-btn {
     background: transparent;

@@ -31,14 +31,17 @@
                 <span class="visitor-count">🚀 Join <strong id="visitor-count">23+</strong> users monitoring their servers</span>
             </div>
             <div class="hero-buttons">
-                <a href="/register.html" class="btn btn-primary btn-large">
-                    <span class="btn-main-text">Start Free Trial</span>
-                    <span class="btn-sub-text">14 days free - no credit card required</span>
+                <a href="/login.html?demo=true" class="btn btn-demo btn-pulse">
+                    <span class="btn-main-text">🚀 Try Live Demo Now</span>
+                    <span class="btn-sub-text">No signup required - See it in action instantly!</span>
                 </a>
-                <a href="/login.html?demo=true" class="btn btn-secondary">Try Demo First</a>
+                <a href="/register.html" class="btn btn-primary">
+                    <span class="btn-main-text">Start Free Trial</span>
+                    <span class="btn-sub-text">14 days free - no credit card</span>
+                </a>
             </div>
             <div class="demo-hint">
-                <span>👉 Demo credentials: demo / demo123</span>
+                <span>✨ Demo credentials: <strong>demo / demo123</strong> (auto-fills for you!)</span>
             </div>
         </div>
         <div class="hero-image">
@@ -410,6 +413,46 @@
             submitButton.textContent = 'Send Feedback';
         }
     });
+    
+    // Update visitor count and social proof
+    async function updateSocialProof() {
+        try {
+            const response = await fetch('/api/analytics/summary');
+            if (response.ok) {
+                const data = await response.json();
+                const visitorCount = document.getElementById('visitor-count');
+                if (visitorCount && data.totalSignups > 0) {
+                    visitorCount.textContent = data.totalSignups + '+';
+                }
+            }
+        } catch (error) {
+            console.error('Failed to fetch analytics:', error);
+        }
+    }
+    
+    // Track landing page view
+    async function trackPageView() {
+        try {
+            await fetch('/api/analytics/track', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    event: 'landing_page_view',
+                    page: 'landing',
+                    referrer: document.referrer,
+                    source: new URLSearchParams(window.location.search).get('ref') || 'direct'
+                })
+            });
+        } catch (error) {
+            console.error('Failed to track page view:', error);
+        }
+    }
+    
+    // Initialize on page load
+    updateSocialProof();
+    trackPageView();
     </script>
 </body>
 </html>
