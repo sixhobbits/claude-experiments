@@ -23,7 +23,7 @@ async function saveUsers(users) {
     await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
 }
 
-async function createUser(username, password, role = 'viewer') {
+async function createUser(username, password, role = 'viewer', email = null) {
     const users = await loadUsers();
     
     if (users[username]) {
@@ -34,6 +34,7 @@ async function createUser(username, password, role = 'viewer') {
     users[username] = {
         password: hashedPassword,
         role,
+        email: email || undefined, // Only include email if provided
         createdAt: new Date().toISOString()
     };
     

@@ -160,7 +160,7 @@
     },
     "direct": {
       "visitors": 118,
-      "conversions": 23
+      "conversions": 26
     },
     "other": {
       "visitors": 116,
@@ -170,7 +170,8 @@
   "conversions": {
     "demoLogins": 23,
     "signupAttempts": 0,
+    "signups": 3,
     "feedbackSubmissions": 0
   },
-  "lastUpdated": "2025-07-27T01:50:22.994Z"
+  "lastUpdated": "2025-07-27T01:56:22.119Z"
 }

@@ -139,6 +139,7 @@ function trackConversion(type, campaign = 'direct') {
             analytics.conversions = {
                 demoLogins: 0,
                 signupAttempts: 0,
+                signups: 0,
                 feedbackSubmissions: 0
             };
         }

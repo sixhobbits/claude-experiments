@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const puppeteer = require('puppeteer');
+const jwt = require('jsonwebtoken');
 const SystemMetrics = require('./metrics');
 const DataStore = require('./dataStore');
 const AlertManager = require('./alerts');
@@ -11,6 +12,9 @@ const { apiKeyMiddleware, createApiKey, listApiKeys, deleteApiKey } = require('.
 const AnalyticsAPI = require('../analytics/analytics_api');
 const feedbackManager = require('./feedback');
 const analytics = require('../analytics');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'micromonitor-secret-key-change-in-production';
+const TOKEN_EXPIRY = '24h';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -72,6 +76,62 @@ app.post('/api/auth/register', authMiddleware('admin'), async (req, res) => {
     res.json(result);
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+// Public registration endpoint (no auth required)
+app.post('/api/auth/signup', async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    
+    // Validate input
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'Username, email, and password are required' });
+    }
+    
+    // Validate username format (alphanumeric and underscores only)
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+      return res.status(400).json({ error: 'Username must be 3-20 characters and contain only letters, numbers, and underscores' });
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+    
+    // Validate password strength
+    if (password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters long' });
+    }
+    
+    // Create user with viewer role by default
+    const result = await createUser(username, password, 'viewer', email);
+    
+    // Generate JWT token for immediate login
+    const token = jwt.sign(
+      { username, role: 'viewer' },
+      JWT_SECRET,
+      { expiresIn: TOKEN_EXPIRY }
+    );
+    
+    // Track signup conversion
+    const campaign = req.query.ref || 'direct';
+    analytics.trackConversion('signups', campaign);
+    
+    res.json({ 
+      token, 
+      username, 
+      role: 'viewer',
+      message: 'Account created successfully' 
+    });
+  } catch (error) {
+    if (error.message === 'User already exists') {
+      res.status(409).json({ error: 'Username already taken' });
+    } else {
+      console.error('Registration error:', error);
+      res.status(500).json({ error: 'Registration failed. Please try again.' });
+    }
   }
 });
 

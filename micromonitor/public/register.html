@@ -211,7 +211,7 @@
                 <li>✓ Email alerts when thresholds are exceeded</li>
                 <li>✓ Public status pages for your services</li>
                 <li>✓ API access for custom integrations</li>
-                <li>✓ 14-day free trial, no credit card required</li>
+                <li>✓ Free to use, open source monitoring</li>
             </ul>
         </div>
     </div>
@@ -248,19 +248,13 @@
             }
             
             try {
-                // For now, since registration requires admin auth, we'll show a message
-                // In a real implementation, this would be a public endpoint
-                successDiv.textContent = 'Thank you for your interest! Please contact the administrator to create your account.';
-                successDiv.style.display = 'block';
+                // Show loading state
+                const submitBtn = document.querySelector('.register-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Creating account...';
+                submitBtn.disabled = true;
                 
-                // Track registration attempt
-                if (window.analytics) {
-                    window.analytics.track('signup-attempt', { username, email });
-                }
-                
-                // In a real implementation, this would be:
-                /*
-                const response = await fetch('/api/auth/register', {
+                const response = await fetch('/api/auth/signup', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -268,19 +262,39 @@
                     body: JSON.stringify({ username, email, password })
                 });
                 
+                const data = await response.json();
+                
                 if (!response.ok) {
-                    throw new Error('Registration failed');
+                    throw new Error(data.error || 'Registration failed');
                 }
                 
-                const data = await response.json();
+                // Store token and user info
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.username);
                 localStorage.setItem('userRole', data.role);
-                window.location.href = '/';
-                */
+                
+                // Track successful registration
+                if (window.analytics) {
+                    window.analytics.track('signup-complete', { username, email });
+                }
+                
+                // Show success message
+                successDiv.textContent = 'Account created successfully! Redirecting to dashboard...';
+                successDiv.style.display = 'block';
+                
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 1500);
                 
             } catch (error) {
-                errorDiv.textContent = 'Registration failed. Please try again.';
+                errorDiv.textContent = error.message || 'Registration failed. Please try again.';
                 errorDiv.style.display = 'block';
+                
+                // Reset button
+                const submitBtn = document.querySelector('.register-btn');
+                submitBtn.textContent = 'Create Account';
+                submitBtn.disabled = false;
             }
         });
         
