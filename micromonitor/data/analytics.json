@@ -1,6 +1,6 @@
 {
   "startTime": "2025-07-24T23:26:00.771Z",
-  "totalVisitors": 250,
+  "totalVisitors": 254,
   "uniqueVisitors": [
     "49.12.1.106",
     "102.182.252.71",
@@ -130,21 +130,23 @@
     "43.156.204.134",
     "136.226.199.7",
     "54.85.109.140",
-    "52.0.105.244"
+    "52.0.105.244",
+    "54.82.20.172",
+    "40.77.167.7"
   ],
   "pageViews": {
-    "landing": 166,
+    "landing": 168,
     "api-health": 3,
     "badge-view": 57,
-    "dashboard": 15,
-    "public-status": 8,
+    "dashboard": 16,
+    "public-status": 9,
     "api-status": 1
   },
   "referrers": {},
   "userAgents": {
     "Other": 53,
-    "Safari": 42,
-    "Chrome": 122,
+    "Safari": 43,
+    "Chrome": 125,
     "Firefox": 33
   },
   "campaigns": {
@@ -165,11 +167,11 @@
       "conversions": 0
     },
     "direct": {
-      "visitors": 125,
+      "visitors": 128,
       "conversions": 28
     },
     "other": {
-      "visitors": 122,
+      "visitors": 123,
       "conversions": 0
     }
   },
@@ -179,5 +181,5 @@
     "signups": 5,
     "feedbackSubmissions": 0
   },
-  "lastUpdated": "2025-07-27T08:01:17.119Z"
+  "lastUpdated": "2025-07-27T10:39:52.273Z"
 }
