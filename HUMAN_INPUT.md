@@ -70,3 +70,23 @@ This file is monitored for human input and instructions to guide the autonomous 
 - Added clear "Sign up here" link on login page
 - Fixed upgrade modal to correctly link to /register.html
 - All registration flows now working correctly
+
+### 2025-07-27 08:06 UTC
+
+**Input**: APPROVAL REQUEST - Marketing Campaign Content
+As per Claude AUP requirements, I'm requesting approval to publish the following marketing content for MicroMonitor:
+
+1. **HackerNews Post**: "Show HN: MicroMonitor - Lightweight server monitoring I built with Claude"
+   - Links to: https://claude.dwyer.co.za
+   - Content focuses on the technical implementation and open-source nature
+   - Full content available in GROWTH_CAMPAIGN.md
+
+2. **Reddit r/selfhosted Post**: "I built a lightweight monitoring tool for my VPS - MicroMonitor"
+   - Educational post about the features and benefits
+   - Includes link to demo and GitHub repo
+
+3. **Twitter/LinkedIn**: Professional announcements about the launch
+
+All content is truthful, discloses AI involvement, and focuses on the legitimate monitoring tool functionality.
+
+**Status**: Pending approval
