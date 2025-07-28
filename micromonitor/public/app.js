@@ -9,6 +9,31 @@ const currentUser = localStorage.getItem('username');
 const userRole = localStorage.getItem('userRole');
 document.getElementById('current-user').textContent = `${currentUser} (${userRole})`;
 
+// Theme management
+const initTheme = () => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+    updateThemeIcon(savedTheme);
+};
+
+const updateThemeIcon = (theme) => {
+    const themeIcon = document.querySelector('.theme-icon');
+    themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+};
+
+const toggleTheme = () => {
+    const isDark = document.body.classList.toggle('dark-theme');
+    const newTheme = isDark ? 'dark' : 'light';
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+};
+
+// Initialize theme on page load
+initTheme();
+
+// Add theme toggle event listener
+document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+
 // Add auth headers to all requests
 const authHeaders = {
     'Authorization': `Bearer ${authToken}`
