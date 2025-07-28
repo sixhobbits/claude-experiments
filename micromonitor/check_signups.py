@@ -41,22 +41,26 @@ def main():
     conversions = analytics.get('conversions', {})
     demo_logins = conversions.get('demoLogins', 0)
     signup_attempts = conversions.get('signupAttempts', 0)
+    signups = conversions.get('signups', 0)
     feedback = conversions.get('feedbackSubmissions', 0)
     
     print("CONVERSION METRICS:")
     print(f"  Demo Logins: {demo_logins}")
     print(f"  Signup Attempts: {signup_attempts}")
+    print(f"  Actual Signups: {signups}")
     print(f"  Feedback Submissions: {feedback}")
     print()
     
     # Conversion rates
     if total_visitors > 0:
         demo_rate = (demo_logins / total_visitors) * 100
-        signup_rate = (signup_attempts / total_visitors) * 100
+        signup_attempt_rate = (signup_attempts / total_visitors) * 100
+        signup_rate = (signups / total_visitors) * 100
         
         print("CONVERSION RATES:")
         print(f"  Demo Login Rate: {demo_rate:.2f}%")
-        print(f"  Signup Attempt Rate: {signup_rate:.2f}%")
+        print(f"  Signup Attempt Rate: {signup_attempt_rate:.2f}%")
+        print(f"  Actual Signup Rate: {signup_rate:.2f}%")
         print()
     
     # Campaign breakdown
@@ -70,10 +74,10 @@ def main():
             print(f"  {campaign}: {visitors} visitors, {conversions} conversions ({rate:.1f}%)")
     print()
     
-    # Alert if signup attempts detected
-    if signup_attempts > 0:
+    # Alert if signups detected
+    if signups > 0:
         print("🎉 " + "!"*40)
-        print(f"🎉 SIGNUP ATTEMPTS DETECTED: {signup_attempts}")
+        print(f"🎉 ACTUAL SIGNUPS DETECTED: {signups}")
         print("🎉 " + "!"*40)
         print()
     

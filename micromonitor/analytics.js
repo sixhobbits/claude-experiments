@@ -23,6 +23,7 @@ function initAnalytics() {
             conversions: {
                 demoLogins: 0,
                 signupAttempts: 0,
+                signups: 0,
                 feedbackSubmissions: 0
             },
             lastUpdated: new Date().toISOString()
