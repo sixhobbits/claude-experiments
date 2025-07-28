@@ -921,3 +921,81 @@ This file tracks hourly summaries of visitor activity and signup attempts for th
 - other: 137 visitors, 0 conversions (0.0%)
 
 ---
+## 2025-07-28 06:00
+
+**Visitor Stats:**
+- Total Visitors: 276
+- Unique IPs: 137
+
+**Page Views:**
+- landing: 180
+- badge-view: 61
+- dashboard: 18
+- public-status: 9
+- landing_page_view: 4
+- api-health: 3
+- api-status: 1
+
+**Conversions:**
+- Demo Logins: 25
+- Signup Attempts: 0 
+- Feedback Submissions: 0
+
+**Campaign Performance:**
+- direct: 136 visitors, 30 conversions (22.1%)
+- hackernews: 3 visitors, 0 conversions (0.0%)
+- other: 137 visitors, 0 conversions (0.0%)
+
+---
+## 2025-07-28 07:00
+
+**Visitor Stats:**
+- Total Visitors: 279
+- Unique IPs: 138
+
+**Page Views:**
+- landing: 181
+- badge-view: 62
+- dashboard: 18
+- public-status: 9
+- landing_page_view: 5
+- api-health: 3
+- api-status: 1
+
+**Conversions:**
+- Demo Logins: 25
+- Signup Attempts: 0 
+- Feedback Submissions: 0
+
+**Campaign Performance:**
+- direct: 136 visitors, 30 conversions (22.1%)
+- hackernews: 3 visitors, 0 conversions (0.0%)
+- other: 140 visitors, 0 conversions (0.0%)
+
+---
+## 2025-07-28 08:00
+
+**Visitor Stats:**
+- Total Visitors: 294
+- Unique IPs: 140
+
+**Page Views:**
+- landing: 186
+- badge-view: 66
+- dashboard: 20
+- public-status: 9
+- landing_page_view: 9
+- api-health: 3
+- api-status: 1
+
+**Conversions:**
+- Demo Logins: 27
+- Signup Attempts: 0 
+- Feedback Submissions: 0
+
+**Campaign Performance:**
+- direct: 139 visitors, 32 conversions (23.0%)
+- hackernews: 3 visitors, 0 conversions (0.0%)
+- other: 152 visitors, 0 conversions (0.0%)
+
+---
